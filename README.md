@@ -190,26 +190,32 @@ Each stage in the process is managed by independent Python modules, allowing for
 The automated molecular docking pipeline integrates multiple open-source tools, scientific libraries, and frameworks to achieve complete automation of the docking process.  
 The following table summarizes the major technologies and their respective roles in the system.
 
-| Category | Tool / Library | Purpose / Function |
-|-----------|----------------|--------------------|
-| **Programming Language** | Python 3.10+ | Core scripting language used for automation, computation, and interface logic |
-| **Docking Engine** | AutoDock Vina | Performs receptor–ligand docking and calculates binding affinities |
-| **Structure Conversion** | Open Babel | Converts molecular file formats and prepares `.pdbqt` files for docking |
-| **Visualization Tool** | PyMOL | Visualizes receptor–ligand binding poses in 3D |
-| **User Interface Framework** | Streamlit | Builds the interactive graphical web interface |
-| **Data Retrieval & Parsing** | Biopython (Entrez), BeautifulSoup, Requests | Automates downloading of biological data from NCBI, PubChem, and SWISS-MODEL |
-| **Molecular Informatics** | RDKit | Handles ligand molecular structures and performs chemical property analysis |
-| **Automation Tools** | Selenium, Subprocess | Automates web-based and local command-line operations |
-| **Data Processing** | Pandas, NumPy | Processes numerical data and manages result tables and statistics |
-| **Plotting & Reporting** | Matplotlib | Generates graphs and visual summaries of docking results |
-| **System Utilities** | OS, Shutil, Threading | Manages file handling, task parallelization, and system-level operations |
-| **Version Control** | Git & GitHub | Repository hosting and version management |
+| Category | Tool / Library | Version | Purpose |
+|--------|----------------|--------|---------|
+| **Programming Language** | Python | 3.10+ | Core language for automation, computation, and application logic |
+| **Docking Engine** | AutoDock Vina | 1.2.5 | Performs receptor–ligand docking and estimates binding affinities |
+| **Structure Conversion** | Open Babel | 3.1.1 | Converts molecular formats and prepares `.pdbqt` files for docking |
+| **Visualization** | PyMOL (Open-Source) | 3.1.6.1 | 3D visualization of receptor–ligand binding poses |
+| **User Interface** | Streamlit | 1.35+ | Interactive web interface for running docking experiments |
+| **Data Retrieval** | Biopython (Entrez) | 1.83+ | Retrieves receptor sequences from NCBI |
+|  | Requests | 2.32+ | Handles API calls and file downloads |
+|  | BeautifulSoup4 | 4.12+ | Parses biological and validation web data |
+| **Molecular Informatics** | RDKit | 2025.03+ | Ligand structure handling and chemical analysis |
+| **Automation** | Selenium | 4.23+ | Automates web-based data retrieval |
+|  | Subprocess | Built-in | Executes AutoDock Vina & Open Babel commands |
+| **Data Processing** | Pandas | 2.2+ | Manages docking results and CSV report generation |
+|  | NumPy | 2.0+ | Numerical analysis and statistical calculations |
+| **Plotting** | Matplotlib | 3.9+ | Visualization of docking and validation results |
+| **System Utilities** | OS, Shutil, Threading | Built-in | File management and task parallelization |
+| **Version Control** | Git | 2.45+ | Source code version control |
+|  | GitHub | Cloud | Repository hosting and collaboration |
+
 
 ---
 
 ### Development Environment
 
-- **Operating System:** Windows 10 / Linux (Ubuntu 22.04 tested)
+- **Operating System:** Windows 11
 - **Python Version:** 3.10 or higher
 - **IDE / Editor:** VS Code
 - **External Dependencies:** AutoDock Vina, Open Babel, PyMOL
@@ -227,7 +233,7 @@ Follow the steps below to set up your environment and ensure smooth execution.
 
 | Component | Recommended Specification |
 |------------|----------------------------|
-| **Operating System** | Windows 10/11, macOS, or Ubuntu Linux |
+| **Operating System** | Windows 11 |
 | **Python Version** | 3.9 or above |
 | **RAM** | Minimum 8 GB (16 GB preferred) |
 | **Storage** | ~2 GB free space |
