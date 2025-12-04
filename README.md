@@ -1,4 +1,5 @@
 # 🧬 Automated Molecular Docking Pipeline
+[![DOI](https://zenodo.org/badge/1096235543.svg)](https://doi.org/10.5281/zenodo.17814494)
 
 ![GitHub License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub stars](https://img.shields.io/github/stars/ODOR-SIG/Automated-Molecular-Docking?style=social)
@@ -189,10 +190,12 @@ If you use this tool in scientific research, please cite:
 
 ```bibtex
 @software{bajpai2025automateddocking,
-  author = {Divyanshu Bajpai},
+  author = {Divyanshu Bajpai,Atirath Pal and shubhajit Roy Chowdhury},
   title = {Automated Molecular Docking Pipeline},
   year = {2025},
   publisher = {ODOR-SIG},
+  version = {1.0.0},
+  doi = {10.5281/zenodo.17814494},
   url = {https://github.com/ODOR-SIG/Automated-Molecular-Docking},
 }
 ```
@@ -203,9 +206,11 @@ If you use this tool in scientific research, please cite:
 
 The complete source code is openly available at:
 
-🔗 **https://github.com/ODOR-SIG/Automated-Molecular-Docking**
+ **https://github.com/ODOR-SIG/Automated-Molecular-Docking**
 
-A DOI-versioned archival release will be deposited in Zenodo after publication.
+A DOI-versioned archival release is available on Zenodo:
+
+**https://doi.org/10.5281/zenodo.17814494**
 
 ---
 
