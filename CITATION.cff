@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Automated Molecular Docking"
+version: "1.0.0"
+date-released: "2025-12-04"
+license: "MIT"
+doi: "10.5281/zenodo.17814494"
+url: "https://github.com/ODOR-SIG/Automated-Molecular-Docking"
+authors:
+  - family-names: "Bajpai"
+    given-names: "Divyanshu"
+    affiliation: "Digital Smell & Computational Biology Research Group, IIT Mandi"
+  - family-names: "Pal"
+    given-names: "Atirath"
+    affiliation: "Digital Smell & Computational Biology Research Group, IIT Mandi"
+abstract: |
+  Automated Molecular Docking Pipeline: a Python-based framework that automates receptor and ligand
+  retrieval, validation, docking, and visualization. Integrates AutoDock Vina, Open Babel, PyMOL,
+  RDKit, Biopython, and Streamlit to provide a fully automated, reproducible, and high-throughput
+  docking workflow. Developed as part of research in digital olfaction at IIT Mandi.
+keywords:
+  - molecular docking
+  - autodock vina
+  - cheminformatics
+  - digital olfaction
+  - streamlit
+  - bioinformatics
+repository-code: "https://github.com/ODOR-SIG/Automated-Molecular-Docking"
+license_url: "https://github.com/ODOR-SIG/Automated-Molecular-Docking/blob/main/LICENSE"
+preferred-citation:
+  type: "bibtex"
+  text: |
+    @software{bajpai2025automateddocking,
+      author = {Divyanshu Bajpai and Atirath Pal},
+      title = {Automated Molecular Docking Pipeline},
+      year = {2025},
+      publisher = {ODOR-SIG},
+      version = {1.0.0},
+      doi = {10.5281/zenodo.17814494},
+      url = {https://github.com/ODOR-SIG/Automated-Molecular-Docking},
+    }
