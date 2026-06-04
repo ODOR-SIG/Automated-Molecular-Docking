@@ -12,20 +12,20 @@ def sanitize_ligand_name(name):
 
 def run_docking(vina_exe, config_file, log_file, out_file, seed):
     try:
-        cmd = [vina_exe, "--config", config_file, "--log", log_file, "--out", out_file]
+        cmd = [vina_exe, "--config", config_file, "--out", out_file]
 
         if seed is not None:
             cmd.extend(["--seed", str(seed)])
 
+        result = subprocess.run(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+
         with open(log_file, 'w') as log_f:
-            result = subprocess.run(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True
-            )
-            log_f.write("\n--- STDOUT ---\n" + result.stdout)
-            log_f.write("\n--- STDERR ---\n" + result.stderr)
+            log_f.write(result.stdout)
 
         return f"✅ Docked ({'seed ' + str(seed) if seed is not None else 'random'}): {os.path.basename(log_file)}"
     except Exception as e:
