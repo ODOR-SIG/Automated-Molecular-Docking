@@ -353,15 +353,20 @@ def main():
 
                 if os.path.exists(analysis_csv):
                     continue
-
+                
                 print(f"  🚀 Run {run_num} (Seed: {seed})...")
-                subprocess.run([
-                    VINA_PATH,
-                    "--config", config_file,
-                    "--out", out_pdbqt,
-                    "--log", log_file,
-                    "--seed", str(seed)
-                ])
+                result = subprocess.run(
+                    [
+                        VINA_PATH,
+                        "--config", config_file,
+                        "--out", out_pdbqt,
+                        "--seed", str(seed)
+                    ],
+                    capture_output=True,
+                    text=True
+                )
+                with open(log_file, "w", encoding="utf-8") as f:
+                    f.write(result.stdout)
 
                 if os.path.exists(out_pdbqt):
                     results = analyze_interactions(rec_pdbqt, out_pdbqt)
