@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Environment
+.env
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# OdorSig runtime output (created by config.py at runtime — not source)
+runs/
+receptors/
+ligands/
+outputs/
+*.log

@@ -27,8 +27,8 @@ def assess_model(receptor, st_callback=None):
     if not os.path.isfile(pdb_file):
         return False, f"❌ PDB file not found for {receptor}: {pdb_file}"
 
-    if not os.path.exists(CHROMEDRIVER):
-        return False, f"❌ chromedriver.exe not found at: {CHROMEDRIVER}"
+    if CHROMEDRIVER and not os.path.exists(CHROMEDRIVER):
+        return False, f"❌ chromedriver not found at: {CHROMEDRIVER}"
 
     # Configure download folder and options
     chrome_options = Options()
@@ -38,8 +38,12 @@ def assess_model(receptor, st_callback=None):
         "safebrowsing.enabled": True
     })
 
-    # Start ChromeDriver
-    driver = webdriver.Chrome(service=Service(CHROMEDRIVER), options=chrome_options)
+    # If ODORSIG_CHROMEDRIVER is unset, Selenium Manager (Selenium >= 4.6)
+    # resolves and caches the matching driver automatically.
+    if CHROMEDRIVER:
+        driver = webdriver.Chrome(service=Service(CHROMEDRIVER), options=chrome_options)
+    else:
+        driver = webdriver.Chrome(options=chrome_options)
 
     try:
         driver.get("https://swissmodel.expasy.org/")

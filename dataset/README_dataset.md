@@ -6,11 +6,20 @@ and 12 odorants (480 pairs total).
 
 ## Files
 
-- `odorsig_480_pairs.xlsx` — main dataset (4 sheets)
-- `extract_interactions.py` — supplementary script for H-bond 
-  and hydrophobic contact extraction. These descriptors are 
-  deposited for future work and are not analysed in the current 
-  manuscript.
+- `Final_Docking_Results.xlsx` — main dataset (4 sheets). Also archived at
+  Zenodo (see below).
+- `code.py` — full dataset-generation pipeline, including
+  `analyze_interactions()`, which computes the H-bond and hydrophobic-contact
+  descriptors in the `Raw_Deep_Dive` and `Executive_Summary` sheets. These
+  descriptors are deposited for future work and are not analysed in the
+  current manuscript.
+- `generate_figures.py` — regenerates the manuscript's dataset-level figures
+  (heatmap, boxplot, odorant profile, binding classification, reproducibility
+  scatter, Ramachandran quality) directly from `Final_Docking_Results.xlsx`,
+  and prints the summary statistics quoted in the Results section. Run with:
+  ```bash
+  python generate_figures.py --input Final_Docking_Results.xlsx --out figures/
+  ```
 
 ## Sheets
 
@@ -25,16 +34,22 @@ and 12 odorants (480 pairs total).
 
 | Column | Description |
 |--------|-------------|
-| Receptor | Olfactory receptor UniProt ID |
+| Receptor | Olfactory receptor gene symbol (e.g. OR1A1) |
 | Ligand | Odorant name |
 | Run1_Affinity | Binding energy run 1 (kcal/mol) |
 | Run2_Affinity | Binding energy run 2 (kcal/mol) |
 | Run3_Affinity | Binding energy run 3 (kcal/mol) |
 | Average_Affinity | Mean binding energy across 3 runs (kcal/mol) |
 | Std_Deviation | Standard deviation across 3 runs (kcal/mol) |
-| Avg_HBond | Average H-bond count in best pose |
-| Avg_Hydrophobic | Average hydrophobic contacts in best pose |
+| Avg_HBonds_Pose1 | Average H-bond count in the top pose across runs |
+| Avg_Hydrophobic_Pose1 | Average hydrophobic contact count in the top pose across runs |
 | Best_Overall_Affinity | Lowest binding energy across all runs (kcal/mol) |
+
+Binding-strength classification (strong / moderate / weak, as reported in the
+manuscript's Results and Figure 5) is not a stored column — it is derived from
+`Average_Affinity` using the thresholds strong ≤ −7.0, moderate −7.0 to −5.0,
+weak > −5.0 kcal/mol, applied consistently in `code/Automation_code/config.py`
+and reproduced by `generate_figures.py`.
 
 ## Docking Log Files
 
@@ -44,8 +59,9 @@ along with the full binding affinity dataset:
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17814494.svg)](https://doi.org/10.5281/zenodo.17814494)
 
-Files available at Zenodo:
-- `odorsig_480_pairs.xlsx` — complete binding affinity dataset
+Files available at Zenodo (filenames as archived; the copy in this repository
+is `Final_Docking_Results.xlsx`, described above):
+- Complete binding affinity dataset (equivalent to `Final_Docking_Results.xlsx`)
 - `odorsig_480pair_docking_logs.zip` — raw AutoDock Vina log 
   files for all 480 pairs (triplicate runs)
 
@@ -55,4 +71,5 @@ If you use this dataset or log files please cite the OdorSig manuscript:
 
 Bajpai D, Pal A, Roy Chowdhury S. OdorSig: A Reproducibility-Aware 
 Pipeline for Large-Scale Olfactory Receptor–Odorant Interaction 
-Profiling. Submitted to BioData Mining, 2026.
+Profiling. Submitted to Computational and Structural Biotechnology 
+Journal, 2026.

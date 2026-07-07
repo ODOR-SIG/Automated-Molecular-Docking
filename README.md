@@ -22,7 +22,7 @@ dataset in which 81% of pairs demonstrated high docking reproducibility
 (σ < 0.2 kcal/mol) and 36 high-confidence strong binders 
 (ΔG ≤ −7.0 kcal/mol) were identified.
 
-The system integrates **AutoDock Vina, Open Babel, PyMOL, RDKit, 
+The system integrates **AutoDock Vina, Open Babel, PyMOL, 
 Biopython**, and a **Streamlit** interface to deliver an end-to-end 
 workflow requiring only receptor and ligand names as input. By reporting 
 mean binding energy (ΔGmean) and standard deviation (σ) across triplicate 
@@ -125,26 +125,29 @@ The pipeline follows a modular, reproducible workflow:
 | **Data Retrieval** | Biopython (Entrez) | 1.83+ | Retrieves receptor sequences from NCBI |
 | | Requests | 2.32+ | Handles API calls and file downloads |
 | | BeautifulSoup4 | 4.12+ | Parses biological and validation web data |
-| **Molecular Informatics** | RDKit | 2025.03+ | Ligand structure handling and chemical analysis |
-| **Automation** | Selenium | 4.23+ | Automates SWISS-MODEL submissions and model retrieval |
+| **Automation** | Selenium | 4.23+ | Automates SWISS-MODEL submissions and model retrieval (driver resolved automatically via Selenium Manager) |
 | | Subprocess | Built-in | Executes AutoDock Vina & Open Babel commands |
-| **Data Processing** | Pandas | 2.2+ | Manages docking results and CSV report generation |
+| **Data Processing** | Pandas | 2.2+ | Manages docking results and Excel/CSV report generation |
 | | NumPy | 2.0+ | Numerical analysis and statistical calculations |
-| **Plotting** | Matplotlib | 3.9+ | Visualization of docking and validation results |
+| | openpyxl / xlsxwriter | 3.1+ / 3.2+ | Reads/writes the `.xlsx` results workbook |
+| **Plotting** | Matplotlib | 3.9+ | Figure generation (`dataset/generate_figures.py`) and validation plots |
+| | SciPy | 1.11+ | Hierarchical clustering for the receptor–odorant affinity heatmap |
 | **System Utilities** | OS, Shutil, Threading | Built-in | File management and task parallelization |
 | **Version Control** | Git | 2.45+ | Source code version control |
 | | GitHub | Cloud | Repository hosting and collaboration |
+
+Every dependency listed above is declared in [`code/requirement.txt`](./code/requirement.txt) and actually imported somewhere in `code/` or `dataset/` — nothing here is aspirational.
 
 ---
 
 ## Development Environment
 
-- **Operating System:** Windows 10/11
+- **Operating System:** Windows, macOS, or Linux (developed on Windows; PyMOL/Selenium launch paths are cross-platform as of this release)
 - **Python Version:** 3.10 or higher
 - **IDE / Editor:** VS Code
 - **External Dependencies:** AutoDock Vina, Open Babel, PyMOL
 
-> *All external tools must be correctly installed and their executable paths configured in `config.py` before running the pipeline.*
+> *AutoDock Vina, Open Babel, and PyMOL must be installed and available on your `PATH`. No source file needs to be edited — see [Configuration](#4️⃣-configure-environment-variables) below.*
 
 ---
 
@@ -154,7 +157,7 @@ The pipeline follows a modular, reproducible workflow:
 
 | Component | Recommended Specification |
 |-----------|--------------------------|
-| **Operating System** | Windows 10/11 |
+| **Operating System** | Windows, macOS, or Linux |
 | **Python Version** | 3.10 or above |
 | **RAM** | Minimum 8 GB (16 GB preferred) |
 | **Storage** | ~2 GB free space |
@@ -167,7 +170,6 @@ The pipeline follows a modular, reproducible workflow:
 #### 🧬 AutoDock Vina
 - Download: https://vina.scripps.edu/
 - Extract and add the `vina` executable to your **PATH**
-  - **Windows:** `C:\Program Files\Vina\vina.exe`
 
 #### Open Babel
 - Download: https://openbabel.org/wiki/Main_Page
@@ -180,10 +182,22 @@ The pipeline follows a modular, reproducible workflow:
 conda install -c schrodinger pymol
 ```
 
+Google Chrome must also be installed; ChromeDriver is resolved automatically by Selenium Manager (Selenium >= 4.6) — no manual driver download needed.
+
 ### 3️⃣ Install Python Dependencies
 ```bash
-pip install -r requirements.txt
+pip install -r code/requirement.txt
 ```
+
+### 4️⃣ Configure environment variables
+
+```bash
+cp .env.example .env
+# edit .env and set ODORSIG_ENTREZ_EMAIL to a real contact email (required by NCBI)
+export $(grep -v '^#' .env | xargs)   # or use a tool like python-dotenv / direnv
+```
+
+No paths are hardcoded in source: `ODORSIG_ENTREZ_EMAIL` is the only required variable. Everything else (Vina/Open Babel/PyMOL locations, output directories, ChromeDriver) has a working default — see `.env.example` and `code/Automation_code/config.py` for the full list of overrides.
 
 ---
 
@@ -191,12 +205,20 @@ pip install -r requirements.txt
 
 Run the Streamlit interface:
 ```bash
+cd code
 streamlit run app.py
 ```
 
-Or run docking directly:
+Regenerate the large-scale 480-pair dataset (requires `ODORSIG_PAIR_LIST_XLSX` pointing at a receptor/ligand pair list — see `dataset/README_dataset.md`):
 ```bash
-python run_docking.py --receptor OR1A1 --ligand citral
+cd dataset
+python code.py
+```
+
+Reproduce the dataset figures (heatmap, boxplot, classification, reproducibility, Ramachandran) from the deposited results:
+```bash
+cd dataset
+python generate_figures.py
 ```
 
 ---

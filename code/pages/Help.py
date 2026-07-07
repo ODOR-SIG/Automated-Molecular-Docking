@@ -59,17 +59,16 @@ with st.expander("📊 Result Interpretation"):
 Binding energy indicates ligand-receptor strength.  
 Lower (more negative) values = stronger binding.
 
-Typical threshold:  
-`< -6.0 kcal/mol` → **promising binding**
+Typical threshold:
+`≤ -7.0 kcal/mol` → **strong, promising binding**
 
 **Colour coding based on binding energy:**
 
 | Binding Energy Range | Bond Strength            | Color |
 |----------------------|--------------------------|-------|
-| -8.0 to -6.5         | Strong Binding Affinity  | 🟦 Blue |
-| -6.5 to -5.4         | Moderate Binding Affinity| 🟧 Amber |
-| -5.4 to -4.0         | Weak Binding Affinity    | 🟧 Orange |
-| > -4.0               | Very Weak Affinity       | ⚪ Gray |
+| ≤ -7.0                | Strong Binding Affinity  | 🟦 Blue |
+| -7.0 to -5.0          | Moderate Binding Affinity| 🟧 Amber |
+| > -5.0                | Weak Binding Affinity    | 🟧 Orange |
 """)
 
     st.subheader("Bond Consistency")

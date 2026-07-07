@@ -11,8 +11,9 @@ from selenium.webdriver.support import expected_conditions as EC  # For specifyi
 from selenium.webdriver.chrome.service import Service  # For managing the ChromeDriver service for Selenium
 
 from Automation_code.config import FASTA_DOWNLOAD_DIR, RECEPTOR_DOWNLOAD_DIR, CHROMEDRIVER
-from Automation_code.config import OBABEL_PATH, ENTREZ_EMAIL
+from Automation_code.config import OBABEL_PATH, ENTREZ_EMAIL, require_entrez_email
 
+require_entrez_email()
 Entrez.email = ENTREZ_EMAIL  # Required by NCBI Entrez API to identify the user making requests
 
 if os.path.exists(FASTA_DOWNLOAD_DIR):
@@ -70,9 +71,9 @@ def upload_to_swiss_model(fasta_path, save_path, st_callback=None):
         # options.add_argument("--no-sandbox")
         # options.add_argument("--window-size=1920,1080")
 
-        service = Service(CHROMEDRIVER)
-        # driver = webdriver.Chrome(service=service, options=options)
-        driver = webdriver.Chrome(service=service)
+        # If ODORSIG_CHROMEDRIVER is unset, Selenium Manager (Selenium >= 4.6)
+        # resolves and caches the matching driver automatically.
+        driver = webdriver.Chrome(service=Service(CHROMEDRIVER)) if CHROMEDRIVER else webdriver.Chrome()
 
         driver.get("https://swissmodel.expasy.org/interactive")
 

@@ -17,12 +17,21 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 
 # ====================== GLOBAL CONFIGURATION ======================
-EXCEL_FILE = "C:/Users/atira/OneDrive/Desktop/pipeline/500 pair dataset/500_docking_pairs_dataset_try_2.xlsx"
-VINA_PATH = "C:/Users/atira/OneDrive/Desktop/pipeline/vina.exe"
-OBABEL_PATH = "C:/Program Files/OpenBabel-3.1.1/obabel.exe"  
-CHROME_DRIVER_PATH = "C:/Users/atira/OneDrive/Desktop/WEB_DRIVER/chromedriver-win64/chromedriver.exe"
+# All machine-specific settings are read from environment variables so this
+# script runs on any machine without editing source. Same convention as
+# ../code/Automation_code/config.py — see ../.env.example.
+EXCEL_FILE = os.environ.get("ODORSIG_PAIR_LIST_XLSX", os.path.join(os.getcwd(), "pair_list.xlsx"))
+VINA_PATH = os.environ.get("ODORSIG_VINA_EXE", "vina")
+OBABEL_PATH = os.environ.get("ODORSIG_OBABEL_PATH", "obabel")
+CHROME_DRIVER_PATH = os.environ.get("ODORSIG_CHROMEDRIVER", "")
 
-EMAIL = "atirathpal@gmail.com"  
+EMAIL = os.environ.get("ODORSIG_ENTREZ_EMAIL", "")
+if not EMAIL:
+    raise RuntimeError(
+        "ODORSIG_ENTREZ_EMAIL is not set. NCBI Entrez requires a real "
+        "contact email for API requests. Set it via:\n"
+        '  export ODORSIG_ENTREZ_EMAIL="you@example.com"'
+    )
 Entrez.email = EMAIL
 
 # Docking Parameters
@@ -55,7 +64,12 @@ def assess_model(receptor_name, pdb_file):
         "safebrowsing.enabled": True
     })
 
-    driver = webdriver.Chrome(service=Service(CHROME_DRIVER_PATH), options=chrome_options)
+    # If ODORSIG_CHROMEDRIVER is unset, Selenium Manager (Selenium >= 4.6)
+    # resolves and caches the matching driver automatically.
+    if CHROME_DRIVER_PATH:
+        driver = webdriver.Chrome(service=Service(CHROME_DRIVER_PATH), options=chrome_options)
+    else:
+        driver = webdriver.Chrome(options=chrome_options)
 
     try:
         driver.get("https://swissmodel.expasy.org/")
@@ -227,7 +241,7 @@ def run_swiss_model(fasta_data, receptor_name):
     os.makedirs(receptor_dir, exist_ok=True)
     pdb_path = os.path.join(receptor_dir, f"{receptor_name}.pdb")
 
-    driver = webdriver.Chrome(service=Service(CHROME_DRIVER_PATH))
+    driver = webdriver.Chrome(service=Service(CHROME_DRIVER_PATH)) if CHROME_DRIVER_PATH else webdriver.Chrome()
     try:
         driver.get("https://swissmodel.expasy.org/interactive")
         textarea = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "id_target")))

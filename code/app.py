@@ -276,7 +276,10 @@ if st.session_state.docking_done:
 
     def launch_pymol(receptor_path, output_path):
         try:
-            subprocess.run(["start", "", PYMOL_PATH, receptor_path, output_path], shell=True)
+            if os.name == "nt":
+                subprocess.run(["start", "", PYMOL_PATH, receptor_path, output_path], shell=True)
+            else:
+                subprocess.Popen([PYMOL_PATH, receptor_path, output_path])
         except Exception as e:
             st.error(f"PyMOL launch failed: {e}")
 
