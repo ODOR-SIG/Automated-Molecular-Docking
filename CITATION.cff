@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it using the metadata below."
 title: "OdorSig: Automated Molecular Docking Pipeline"
 version: "1.0.0"
-date-released: "2025-12-04"
+date-released: "2026-07-17"
 license: "MIT"
 doi: "10.5281/zenodo.17814494"
 url: "https://github.com/ODOR-SIG/Automated-Molecular-Docking"
@@ -47,7 +47,7 @@ preferred-citation:
       given-names: "Atirath"
     - family-names: "Roy Chowdhury"
       given-names: "Shubhajit"
-  year: 2025
+  year: 2026
   publisher: "ODOR-SIG"
   version: "1.0.0"
   doi: "10.5281/zenodo.17814494"
