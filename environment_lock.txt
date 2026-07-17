@@ -16,3 +16,15 @@ PyMOL            3.1.0     # open-source PyMOL
 # SWISS-MODEL: accessed as a remote web service through automated browser
 # interaction (Selenium); there is no fixed local version. Homology-model
 # results therefore depend on the live SWISS-MODEL server at run time.
+#
+# ---------------------------------------------------------------------------
+# SCOPE OF THIS LOCK FILE (please read):
+# This documents the CURRENT verified environment (WSL2 / Ubuntu on a Dell
+# desktop) in which the OdorSig pipeline is confirmed to run and reproduce its
+# functionality. It is NOT the machine that generated the originally deposited
+# 480-pair dataset and Zenodo docking logs — that was a different (Windows)
+# machine, months earlier, running an earlier version of the pipeline.
+# This environment is confirmed to reproduce the pipeline's functionality, but
+# it is NOT a guarantee of bit-identical output to the original deposited
+# dataset.
+# ---------------------------------------------------------------------------

@@ -1,0 +1,7 @@
+REMARK  Ethanol — minimal small-molecule fixture for the PDB->PDBQT
+REMARK  conversion test (tests/test_pdbqt_conversion.py). Hand-authored;
+REMARK  3 heavy atoms (C, C, O) at approximately standard bond lengths.
+HETATM    1  C1  ETH A   1       0.000   0.000   0.000  1.00  0.00           C
+HETATM    2  C2  ETH A   1       1.520   0.000   0.000  1.00  0.00           C
+HETATM    3  O1  ETH A   1       2.030   1.320   0.000  1.00  0.00           O
+END

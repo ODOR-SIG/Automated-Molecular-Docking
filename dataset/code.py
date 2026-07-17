@@ -6,6 +6,13 @@ import glob
 import shutil
 import pandas as pd
 import numpy as np
+
+# Use OdorSig's shared reproducibility-scoring function (single source of truth,
+# defined in code/Automation_code/reproducibility.py) rather than a second,
+# independent mean/std implementation.
+import sys as _sys
+_sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "code"))
+from Automation_code.reproducibility import reproducibility_stats
 from Bio import Entrez
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -512,8 +519,9 @@ def master_organizer():
                 "Ligand": lig_name,
             }
             summary_row.update(pair_pose1_affinities)
-            summary_row["Average_Affinity"] = float(np.mean(aff_values))
-            summary_row["Std_Deviation"] = float(np.std(aff_values))
+            mean_aff, std_aff = reproducibility_stats(aff_values)
+            summary_row["Average_Affinity"] = mean_aff
+            summary_row["Std_Deviation"] = std_aff
             summary_row["Avg_HBonds_Pose1"] = float(np.mean(pair_pose1_hbonds)) if pair_pose1_hbonds else np.nan
             summary_row["Avg_Hydrophobic_Pose1"] = float(np.mean(pair_pose1_hydrophobic)) if pair_pose1_hydrophobic else np.nan
             summary_row["Best_Overall_Affinity"] = float(np.min(aff_values))

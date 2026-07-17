@@ -15,6 +15,7 @@ from Automation_code.config import (
     VINA_EXE, PYMOL_PATH, RECEPTOR_DOWNLOAD_DIR, STD_DEV_RANGES
 )
 from Automation_code.config import classify_binding_energy
+from Automation_code.reproducibility import reproducibility_stats, classify_std_dev
 
 from Automation_code.Step_01_downloading_model_ligands import process_receptor_from_input
 from Automation_code.Step_02_validate_model_structure import assess_model
@@ -367,20 +368,13 @@ if st.session_state.docking_done:
                     best_score = min_energy
                     best_seed = seed
 
-        def classify_std_dev(value, ranges):
-            for label, (low, high) in ranges.items():
-                if low <= value < high:
-                    return label
-            return "Unknown"
-
         if best_seed is not None:
             first_row = df.iloc[0]
             seed_vals = [float(first_row[seed]) for seed in seed_names if first_row[seed] != ""]
             n = len(seed_vals)
             if n > 0:
-                mean_val = sum(seed_vals) / n
-                variance = sum((x - mean_val) ** 2 for x in seed_vals) / n
-                pop_std_dev = variance ** 0.5
+                # Shared single source of truth (Automation_code/reproducibility.py)
+                mean_val, pop_std_dev = reproducibility_stats(seed_vals)
                 std_dev_class = classify_std_dev(pop_std_dev, STD_DEV_RANGES)
             else:
                 pop_std_dev = None

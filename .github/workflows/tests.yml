@@ -1,0 +1,38 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install external tools (Open Babel + AutoDock Vina 1.2.7)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openbabel
+          # AutoDock Vina pinned to 1.2.7 to match environment_lock.txt
+          VINA_VER=1.2.7
+          sudo wget -q \
+            "https://github.com/ccsb-scripps/AutoDock-Vina/releases/download/v${VINA_VER}/vina_${VINA_VER}_linux_x86_64" \
+            -O /usr/local/bin/vina
+          sudo chmod +x /usr/local/bin/vina
+          vina --version
+          obabel -V
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run test suite
+        run: pytest -v

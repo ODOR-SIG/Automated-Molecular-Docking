@@ -18,3 +18,6 @@ receptors/
 ligands/
 outputs/
 *.log
+
+# pytest
+.pytest_cache/

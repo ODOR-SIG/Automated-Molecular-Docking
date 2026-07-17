@@ -1,5 +1,6 @@
 # 🧬 OdorSig: Automated Molecular Docking Pipeline
 
+[![tests](https://github.com/ODOR-SIG/Automated-Molecular-Docking/actions/workflows/tests.yml/badge.svg)](https://github.com/ODOR-SIG/Automated-Molecular-Docking/actions/workflows/tests.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17814494.svg)](https://doi.org/10.5281/zenodo.17814494)
 ![GitHub License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub stars](https://img.shields.io/github/stars/ODOR-SIG/Automated-Molecular-Docking?style=social)
