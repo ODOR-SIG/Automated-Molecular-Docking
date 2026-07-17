@@ -3,6 +3,15 @@
 # Provenance: pinned to THE VERIFIED WORKING ENVIRONMENT USED TO RUN OdorSig
 # (pip freeze provided by the maintainer, 2026-07).
 #
+# Python version: exact Python-version parity is NOT guaranteed across the
+# machines in this project's history (the original Windows dataset-generation
+# laptop; the later WSL/Ubuntu verified environment; and CI). These pins target
+# the Python 3.11-3.13 range. Note that the pinned numpy (2.4.6) and pandas
+# (3.0.3) require Python >= 3.11, so 3.11 is the effective minimum for this
+# pinned set. scipy is pinned to 1.17.1 — the newest scipy that supports
+# Python 3.11 — rather than 1.18.0, which requires Python >= 3.12 and would
+# fail to install on CI's Python 3.11.
+#
 # Scope: this file lists ONLY the packages actually imported by the repository
 # source code. Transitive dependencies are resolved automatically by pip and are
 # intentionally not pinned here. External command-line tools (AutoDock Vina,
@@ -23,5 +32,5 @@ xlsxwriter==3.2.9        # pandas Excel WRITE engine (pd.ExcelWriter(engine="xls
 # --- Figure regeneration only (dataset/generate_figures.py) ---
 # Used to reproduce the manuscript's dataset-level figures from
 # Final_Docking_Results.xlsx; not required to run the docking pipeline itself.
-scipy==1.18.0            # scipy.cluster.hierarchy — Fig. 2 hierarchical clustering
+scipy==1.17.1            # scipy.cluster.hierarchy — Fig. 2 clustering (newest scipy for Py3.11; 1.18.0 needs Py>=3.12)
 matplotlib==3.11.0       # figure rendering in dataset/generate_figures.py

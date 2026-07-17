@@ -7,7 +7,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/ODOR-SIG/Automated-Molecular-Docking)
 ![Issues](https://img.shields.io/github/issues/ODOR-SIG/Automated-Molecular-Docking)
 ![Pull Requests](https://img.shields.io/github/issues-pr/ODOR-SIG/Automated-Molecular-Docking)
-![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![Framework](https://img.shields.io/badge/Framework-Streamlit-ff4b4b.svg)
 ![Docking Engine](https://img.shields.io/badge/Engine-AutoDock_Vina-green.svg)
 [![Field](https://img.shields.io/badge/Domain-Bioinformatics-lightblue.svg)](#)
@@ -118,7 +118,7 @@ The pipeline follows a modular, reproducible workflow:
 
 | Category | Tool / Library | Version | Purpose |
 |----------|----------------|---------|---------|
-| **Programming Language** | Python | 3.10+ | Core language for automation, computation, and application logic |
+| **Programming Language** | Python | 3.11+ | Core language for automation, computation, and application logic |
 | **Docking Engine** | AutoDock Vina | 1.2.7 | Performs receptor–ligand docking and estimates binding affinities |
 | **Structure Conversion** | Open Babel | 3.1.1 | Converts molecular formats and prepares `.pdbqt` files for docking |
 | **Visualization** | PyMOL (Open-Source) | 3.1.0 | 3D visualization of receptor–ligand binding poses |
@@ -144,7 +144,7 @@ Every dependency listed above is declared in [`requirements.txt`](./requirements
 ## Development Environment
 
 - **Operating System:** Windows, macOS, or Linux (developed on Windows; PyMOL/Selenium launch paths are cross-platform as of this release)
-- **Python Version:** 3.10 or higher
+- **Python Version:** 3.11 or higher
 - **IDE / Editor:** VS Code
 - **External Dependencies:** AutoDock Vina, Open Babel, PyMOL
 
@@ -159,7 +159,7 @@ Every dependency listed above is declared in [`requirements.txt`](./requirements
 | Component | Recommended Specification |
 |-----------|--------------------------|
 | **Operating System** | Windows, macOS, or Linux |
-| **Python Version** | 3.10 or above |
+| **Python Version** | 3.11 or above |
 | **RAM** | Minimum 8 GB (16 GB preferred) |
 | **Storage** | ~2 GB free space |
 | **Internet Connection** | Required for data retrieval (NCBI, PubChem, SWISS-MODEL) |
