@@ -72,4 +72,4 @@ If you use this dataset or log files, please cite:
 Bajpai D, Pal A, Roy Chowdhury S. OdorSig: A Reproducibility-Aware
 Pipeline for Large-Scale Olfactory Receptor-Odorant Interaction
 Profiling. Manuscript in preparation, 2026. Dataset archived at
-Zenodo: https://doi.org/10.5281/zenodo.17814494
+Zenodo: https://doi.org/10.5281/zenodo.20373888
