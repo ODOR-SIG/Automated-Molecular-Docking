@@ -67,9 +67,9 @@ is `Final_Docking_Results.xlsx`, described above):
 
 ## Citation
 
-If you use this dataset or log files please cite the OdorSig manuscript:
+If you use this dataset or log files, please cite:
 
-Bajpai D, Pal A, Roy Chowdhury S. OdorSig: A Reproducibility-Aware 
-Pipeline for Large-Scale Olfactory Receptor–Odorant Interaction 
-Profiling. Submitted to Computational and Structural Biotechnology 
-Journal, 2026.
+Bajpai D, Pal A, Roy Chowdhury S. OdorSig: A Reproducibility-Aware
+Pipeline for Large-Scale Olfactory Receptor-Odorant Interaction
+Profiling. Manuscript in preparation, 2026. Dataset archived at
+Zenodo: https://doi.org/10.5281/zenodo.17814494
