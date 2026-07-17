@@ -118,9 +118,9 @@ The pipeline follows a modular, reproducible workflow:
 | Category | Tool / Library | Version | Purpose |
 |----------|----------------|---------|---------|
 | **Programming Language** | Python | 3.10+ | Core language for automation, computation, and application logic |
-| **Docking Engine** | AutoDock Vina | 1.2.5 | Performs receptor–ligand docking and estimates binding affinities |
+| **Docking Engine** | AutoDock Vina | 1.2.7 | Performs receptor–ligand docking and estimates binding affinities |
 | **Structure Conversion** | Open Babel | 3.1.1 | Converts molecular formats and prepares `.pdbqt` files for docking |
-| **Visualization** | PyMOL (Open-Source) | 3.1.6.1 | 3D visualization of receptor–ligand binding poses |
+| **Visualization** | PyMOL (Open-Source) | 3.1.0 | 3D visualization of receptor–ligand binding poses |
 | **User Interface** | Streamlit | 1.35+ | Interactive web interface for running docking experiments |
 | **Data Retrieval** | Biopython (Entrez) | 1.83+ | Retrieves receptor sequences from NCBI |
 | | Requests | 2.32+ | Handles API calls and file downloads |
@@ -136,7 +136,7 @@ The pipeline follows a modular, reproducible workflow:
 | **Version Control** | Git | 2.45+ | Source code version control |
 | | GitHub | Cloud | Repository hosting and collaboration |
 
-Every dependency listed above is declared in [`code/requirement.txt`](./code/requirement.txt) and actually imported somewhere in `code/` or `dataset/` — nothing here is aspirational.
+Every dependency listed above is declared in [`requirements.txt`](./requirements.txt) and actually imported somewhere in `code/` or `dataset/` — nothing here is aspirational.
 
 ---
 
@@ -186,7 +186,7 @@ Google Chrome must also be installed; ChromeDriver is resolved automatically by 
 
 ### 3️⃣ Install Python Dependencies
 ```bash
-pip install -r code/requirement.txt
+pip install -r requirements.txt
 ```
 
 ### 4️⃣ Configure environment variables

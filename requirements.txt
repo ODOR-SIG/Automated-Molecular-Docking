@@ -1,0 +1,27 @@
+# requirements.txt — OdorSig
+#
+# Provenance: pinned to THE VERIFIED WORKING ENVIRONMENT USED TO RUN OdorSig
+# (pip freeze provided by the maintainer, 2026-07).
+#
+# Scope: this file lists ONLY the packages actually imported by the repository
+# source code. Transitive dependencies are resolved automatically by pip and are
+# intentionally not pinned here. External command-line tools (AutoDock Vina,
+# Open Babel, PyMOL) are NOT Python packages and are recorded separately in
+# environment_lock.txt.
+
+# --- Core pipeline (dataset/code.py, code/app.py, code/Automation_code/*) ---
+biopython==1.87
+beautifulsoup4==4.14.3
+requests==2.34.2
+selenium==4.44.0
+numpy==2.4.6
+pandas==3.0.3
+streamlit==1.58.0
+openpyxl==3.1.5          # pandas Excel READ engine (pd.read_excel)
+xlsxwriter==3.2.9        # pandas Excel WRITE engine (pd.ExcelWriter(engine="xlsxwriter"))
+
+# --- Figure regeneration only (dataset/generate_figures.py) ---
+# Used to reproduce the manuscript's dataset-level figures from
+# Final_Docking_Results.xlsx; not required to run the docking pipeline itself.
+scipy==1.18.0            # scipy.cluster.hierarchy — Fig. 2 hierarchical clustering
+matplotlib==3.11.0       # figure rendering in dataset/generate_figures.py

@@ -1,0 +1,18 @@
+# environment_lock.txt — OdorSig external (non-pip) tools
+#
+# Provenance: the verified production environment used to run OdorSig
+# (WSL2 / Ubuntu on a Dell desktop, 28 cores). Python package versions are
+# pinned separately in requirements.txt.
+#
+# These are command-line tools invoked by the pipeline via subprocess
+# (see code/Automation_code/config.py: ODORSIG_VINA_EXE / ODORSIG_OBABEL_PATH /
+# ODORSIG_PYMOL_PATH). They are NOT pip-installable and must be installed
+# independently and made available on PATH.
+
+AutoDock Vina    1.2.7
+Open Babel       3.1.1
+PyMOL            3.1.0     # open-source PyMOL
+
+# SWISS-MODEL: accessed as a remote web service through automated browser
+# interaction (Selenium); there is no fixed local version. Homology-model
+# results therefore depend on the live SWISS-MODEL server at run time.

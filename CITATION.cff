@@ -19,8 +19,8 @@ authors:
     affiliation: "Indian Institute of Technology Mandi, Himachal Pradesh, India"
 abstract: |
   OdorSig is a fully automated, open-source Python pipeline for reproducible olfactory 
-  receptor-odorant molecular docking analysis. The system integrates AutoDock Vina, 
-  Open Babel, PyMOL, RDKit, Biopython, and Streamlit to deliver an end-to-end workflow 
+  receptor-odorant molecular docking analysis. The system integrates AutoDock Vina,
+  Open Babel, PyMOL, Biopython, and Streamlit to deliver an end-to-end workflow
   requiring only receptor and ligand names as input. Applied to 480 receptor-odorant pairs 
   across 40 human olfactory receptors and 12 structurally diverse odorants, OdorSig 
   implements multi-run reproducibility scoring by reporting mean binding energy and standard 
