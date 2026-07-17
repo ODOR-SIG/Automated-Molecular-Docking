@@ -6,6 +6,7 @@ automated molecular docking pipeline.
 See installation instructions in the main README.md
 
 ## Usage
+Launch the Streamlit app from this `code/` directory:
 ```bash
-python main.py
+streamlit run app.py
 ```
