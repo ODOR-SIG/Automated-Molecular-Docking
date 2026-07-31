@@ -57,7 +57,7 @@ Complete AutoDock Vina output log files for all 480 receptor–odorant
 pairs (40 ORs × 12 odorants, triplicate runs) are deposited at Zenodo 
 along with the full binding affinity dataset:
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17814494.svg)](https://doi.org/10.5281/zenodo.17814494)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20373888.svg)](https://doi.org/10.5281/zenodo.20373888)
 
 Files available at Zenodo (filenames as archived; the copy in this repository
 is `Final_Docking_Results.xlsx`, described above):
