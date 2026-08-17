@@ -15,6 +15,8 @@ import json
 import os
 import sys
 
+import pytest
+
 FIXTURES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "examples", "OR7D4_androstenone")
 OUT_DIR = os.path.join(FIXTURES, "expected_output")
 
@@ -44,11 +46,14 @@ def test_reproducibility_summary_matches_committed_docking_output():
         _best_energy(os.path.join(OUT_DIR, f"run{i}_seed{seed}_docked.pdbqt"))
         for i, seed in enumerate(summary["seeds"], start=1)
     ]
-    assert best_energies == summary["best_binding_energies_kcal_per_mol"]
+    # Floating-point summation/division can differ in the last ULP depending
+    # on platform/interpreter (e.g. -7.933333333333333 vs
+    # -7.933333333333334), so compare with a tolerance rather than exact ==.
+    assert best_energies == pytest.approx(summary["best_binding_energies_kcal_per_mol"], abs=1e-9)
 
     mean, sigma = reproducibility_stats(best_energies)
-    assert mean == summary["delta_g_mean"]
-    assert sigma == summary["sigma"]
+    assert mean == pytest.approx(summary["delta_g_mean"], abs=1e-9)
+    assert sigma == pytest.approx(summary["sigma"], abs=1e-9)
 
     strength_label, _ = classify_binding_energy(mean)
     assert strength_label == summary["binding_strength"]
