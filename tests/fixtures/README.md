@@ -6,8 +6,9 @@ time; they are committed so the tests are self-contained.
 | File | Used by | Origin |
 |------|---------|--------|
 | `ethanol.pdb` | `test_pdbqt_conversion.py` | Hand-authored minimal small molecule (3 heavy atoms: C, C, O) for exercising the Open Babel PDB→PDBQT conversion. Synthetic, by design — it only needs to be a valid tiny molecule. |
-| `receptor.pdbqt` | `test_docking_smoke.py` | Genuine OdorSig output: prepared receptor **OR7D4** (2885 atoms). |
+| `receptor.pdbqt` | `test_docking_smoke.py`, `test_interactions.py` | Genuine OdorSig output: prepared receptor **OR7D4** (2885 atoms). |
 | `ligand.pdbqt` | `test_docking_smoke.py` | Genuine OdorSig output: prepared ligand **androstenone** (a docking-ready AutoDock ligand with a torsion tree). |
+| `sample_vina_output.pdbqt` | `test_log_parsing.py` | Genuine AutoDock Vina 1.2.7 output (not hand-written) from docking `receptor.pdbqt` against `ligand.pdbqt` above with `--seed 42 --exhaustiveness 1 --num_modes 5`, using the same blind-docking box construction as `test_docking_smoke.py`. Generated locally and committed so the log-parsing test doesn't depend on a live Vina run. |
 
 ## Provenance of `receptor.pdbqt` / `ligand.pdbqt`
 

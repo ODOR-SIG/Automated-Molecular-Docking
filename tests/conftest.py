@@ -8,6 +8,11 @@ import tempfile
 # writes into the working tree.
 os.environ.setdefault("ODORSIG_BASE_DIR", tempfile.mkdtemp(prefix="odorsig_test_"))
 
+# dataset/code.py refuses to import without a contact email for NCBI Entrez
+# (see its module-level check). Tests only exercise the pure PDBQT-parsing
+# functions in that module and never call Entrez, so a placeholder is fine.
+os.environ.setdefault("ODORSIG_ENTREZ_EMAIL", "odorsig-tests@example.com")
+
 # Make `code/` importable so tests can do `from Automation_code... import ...`,
 # exactly as the app does when run from the code/ directory.
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

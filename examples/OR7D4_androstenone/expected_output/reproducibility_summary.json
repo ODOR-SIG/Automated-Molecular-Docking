@@ -1,0 +1,19 @@
+{
+  "receptor": "OR7D4",
+  "ligand": "Androstenone",
+  "pipeline_stage": "Step_05 docking (Vina) + reproducibility scoring",
+  "seeds": [
+    101,
+    102,
+    103
+  ],
+  "best_binding_energies_kcal_per_mol": [
+    -7.2,
+    -8.2,
+    -8.4
+  ],
+  "delta_g_mean": -7.933333333333334,
+  "sigma": 0.524933858267454,
+  "binding_strength": "Strong Binding Affinity",
+  "binding_consistency": "Inconsistent binding"
+}

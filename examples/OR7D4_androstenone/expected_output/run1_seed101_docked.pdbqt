@@ -1,0 +1,297 @@
+MODEL 1
+REMARK VINA RESULT:      -7.2      0.000      0.000
+REMARK  Name = C:\Users\atira\OneDrive\Desktop\pipeline\Automated_Molecular_Docking\first_stage_model_download\OR7D4_folder\ligands\Androstenone.pdb
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: C_4  and  C_15
+REMARK    2  A    between atoms: C_7  and  C_18
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1      -9.939  -2.301  -5.221  0.00  0.00    -0.297 OA
+ATOM      2  C   UNL     1      -9.858   2.835  -7.262  0.00  0.00    -0.001 C 
+ATOM      3  C   UNL     1     -11.216   3.535  -7.603  0.00  0.00    -0.003 C 
+ATOM      4  C   UNL     1      -9.961   1.269  -7.388  0.00  0.00    -0.025 C 
+ATOM      5  C   UNL     1     -11.024   5.042  -7.422  0.00  0.00    +0.006 C 
+ATOM      6  C   UNL     1     -11.131   0.798  -6.462  0.00  0.00    +0.002 C 
+ATOM      7  C   UNL     1      -9.956   5.610  -8.382  0.00  0.00    -0.011 C 
+ATOM      8  C   UNL     1      -8.651   3.467  -8.015  0.00  0.00    +0.005 C 
+ATOM      9  C   UNL     1     -12.350   2.995  -6.726  0.00  0.00    +0.004 C 
+ATOM     10  C   UNL     1      -8.613   5.010  -7.958  0.00  0.00    +0.011 C 
+ATOM     11  C   UNL     1     -12.463   1.475  -6.803  0.00  0.00    +0.005 C 
+ATOM     12  C   UNL     1      -8.660   0.596  -6.864  0.00  0.00    +0.015 C 
+ATOM     13  C   UNL     1     -12.202   6.006  -7.542  0.00  0.00    +0.031 C 
+ATOM     14  C   UNL     1     -11.287  -0.724  -6.416  0.00  0.00    +0.078 C 
+ATOM     15  C   UNL     1     -10.180   0.845  -8.862  0.00  0.00    +0.012 C 
+ATOM     16  C   UNL     1     -10.185   7.079  -8.129  0.00  0.00    -0.024 C 
+ATOM     17  C   UNL     1      -8.742  -0.926  -6.771  0.00  0.00    +0.075 C 
+ATOM     18  C   UNL     1     -10.213   5.361  -9.886  0.00  0.00    +0.016 C 
+ATOM     19  C   UNL     1     -11.443   7.295  -7.713  0.00  0.00    -0.030 C 
+ATOM     20  C   UNL     1      -9.978  -1.373  -6.028  0.00  0.00    +0.134 C 
+ENDROOT
+TORSDOF 0
+ENDMDL
+MODEL 2
+REMARK VINA RESULT:      -7.2      4.815      8.333
+REMARK  Name = C:\Users\atira\OneDrive\Desktop\pipeline\Automated_Molecular_Docking\first_stage_model_download\OR7D4_folder\ligands\Androstenone.pdb
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: C_4  and  C_15
+REMARK    2  A    between atoms: C_7  and  C_18
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1     -11.604  11.490 -14.025  0.00  0.00    -0.297 OA
+ATOM      2  C   UNL     1     -10.510   7.607 -10.246  0.00  0.00    -0.001 C 
+ATOM      3  C   UNL     1     -10.349   6.121 -10.712  0.00  0.00    -0.003 C 
+ATOM      4  C   UNL     1     -11.466   8.417 -11.199  0.00  0.00    -0.025 C 
+ATOM      5  C   UNL     1      -9.383   5.429  -9.748  0.00  0.00    +0.006 C 
+ATOM      6  C   UNL     1     -10.893   8.300 -12.650  0.00  0.00    +0.002 C 
+ATOM      7  C   UNL     1      -9.926   5.405  -8.302  0.00  0.00    -0.011 C 
+ATOM      8  C   UNL     1     -10.850   7.726  -8.732  0.00  0.00    +0.005 C 
+ATOM      9  C   UNL     1      -9.857   6.048 -12.162  0.00  0.00    +0.004 C 
+ATOM     10  C   UNL     1      -9.962   6.856  -7.817  0.00  0.00    +0.011 C 
+ATOM     11  C   UNL     1     -10.747   6.845 -13.112  0.00  0.00    +0.005 C 
+ATOM     12  C   UNL     1     -11.456   9.926 -10.821  0.00  0.00    +0.015 C 
+ATOM     13  C   UNL     1      -8.902   4.003 -10.003  0.00  0.00    +0.031 C 
+ATOM     14  C   UNL     1     -11.679   9.122 -13.675  0.00  0.00    +0.078 C 
+ATOM     15  C   UNL     1     -12.920   7.891 -11.102  0.00  0.00    +0.012 C 
+ATOM     16  C   UNL     1      -8.901   4.481  -7.693  0.00  0.00    -0.024 C 
+ATOM     17  C   UNL     1     -12.205  10.818 -11.807  0.00  0.00    +0.075 C 
+ATOM     18  C   UNL     1     -11.307   4.736  -8.121  0.00  0.00    +0.016 C 
+ATOM     19  C   UNL     1      -8.376   3.676  -8.630  0.00  0.00    -0.030 C 
+ATOM     20  C   UNL     1     -11.770  10.564 -13.230  0.00  0.00    +0.134 C 
+ENDROOT
+TORSDOF 0
+ENDMDL
+MODEL 3
+REMARK VINA RESULT:      -7.2      9.867     12.008
+REMARK  Name = C:\Users\atira\OneDrive\Desktop\pipeline\Automated_Molecular_Docking\first_stage_model_download\OR7D4_folder\ligands\Androstenone.pdb
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: C_4  and  C_15
+REMARK    2  A    between atoms: C_7  and  C_18
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1      -7.747   4.482 -13.661  0.00  0.00    -0.297 OA
+ATOM      2  C   UNL     1      -2.349   5.013 -14.723  0.00  0.00    -0.001 C 
+ATOM      3  C   UNL     1      -1.812   6.387 -15.248  0.00  0.00    -0.003 C 
+ATOM      4  C   UNL     1      -3.850   4.777 -15.134  0.00  0.00    -0.025 C 
+ATOM      5  C   UNL     1      -0.366   6.538 -14.773  0.00  0.00    +0.006 C 
+ATOM      6  C   UNL     1      -4.680   5.992 -14.601  0.00  0.00    +0.002 C 
+ATOM      7  C   UNL     1       0.550   5.434 -15.345  0.00  0.00    -0.011 C 
+ATOM      8  C   UNL     1      -1.393   3.831 -15.052  0.00  0.00    +0.005 C 
+ATOM      9  C   UNL     1      -2.694   7.544 -14.766  0.00  0.00    +0.004 C 
+ATOM     10  C   UNL     1       0.090   4.111 -14.727  0.00  0.00    +0.011 C 
+ATOM     11  C   UNL     1      -4.163   7.336 -15.125  0.00  0.00    +0.005 C 
+ATOM     12  C   UNL     1      -4.407   3.501 -14.442  0.00  0.00    +0.015 C 
+ATOM     13  C   UNL     1       0.407   7.835 -15.000  0.00  0.00    +0.031 C 
+ATOM     14  C   UNL     1      -6.183   5.849 -14.853  0.00  0.00    +0.078 C 
+ATOM     15  C   UNL     1      -3.983   4.609 -16.668  0.00  0.00    +0.012 C 
+ATOM     16  C   UNL     1       1.879   5.994 -14.907  0.00  0.00    -0.024 C 
+ATOM     17  C   UNL     1      -5.908   3.296 -14.631  0.00  0.00    +0.075 C 
+ATOM     18  C   UNL     1       0.585   5.330 -16.887  0.00  0.00    +0.016 C 
+ATOM     19  C   UNL     1       1.806   7.328 -14.767  0.00  0.00    -0.030 C 
+ATOM     20  C   UNL     1      -6.688   4.542 -14.285  0.00  0.00    +0.134 C 
+ENDROOT
+TORSDOF 0
+ENDMDL
+MODEL 4
+REMARK VINA RESULT:      -7.0     15.284     17.659
+REMARK  Name = C:\Users\atira\OneDrive\Desktop\pipeline\Automated_Molecular_Docking\first_stage_model_download\OR7D4_folder\ligands\Androstenone.pdb
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: C_4  and  C_15
+REMARK    2  A    between atoms: C_7  and  C_18
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1       9.271  -1.343 -15.178  0.00  0.00    -0.297 OA
+ATOM      2  C   UNL     1       4.416  -3.277 -13.378  0.00  0.00    -0.001 C 
+ATOM      3  C   UNL     1       3.795  -2.670 -12.075  0.00  0.00    -0.003 C 
+ATOM      4  C   UNL     1       5.987  -3.188 -13.373  0.00  0.00    -0.025 C 
+ATOM      5  C   UNL     1       2.273  -2.773 -12.189  0.00  0.00    +0.006 C 
+ATOM      6  C   UNL     1       6.373  -1.686 -13.165  0.00  0.00    +0.002 C 
+ATOM      7  C   UNL     1       1.797  -4.239 -12.289  0.00  0.00    -0.011 C 
+ATOM      8  C   UNL     1       3.847  -4.686 -13.712  0.00  0.00    +0.005 C 
+ATOM      9  C   UNL     1       4.255  -1.222 -11.868  0.00  0.00    +0.004 C 
+ATOM     10  C   UNL     1       2.309  -4.781 -13.626  0.00  0.00    +0.011 C 
+ATOM     11  C   UNL     1       5.776  -1.094 -11.883  0.00  0.00    +0.005 C 
+ATOM     12  C   UNL     1       6.560  -3.623 -14.752  0.00  0.00    +0.015 C 
+ATOM     13  C   UNL     1       1.360  -2.142 -11.140  0.00  0.00    +0.031 C 
+ATOM     14  C   UNL     1       7.882  -1.438 -13.230  0.00  0.00    +0.078 C 
+ATOM     15  C   UNL     1       6.589  -4.100 -12.275  0.00  0.00    +0.012 C 
+ATOM     16  C   UNL     1       0.315  -4.004 -12.142  0.00  0.00    -0.024 C 
+ATOM     17  C   UNL     1       8.061  -3.390 -14.903  0.00  0.00    +0.075 C 
+ATOM     18  C   UNL     1       2.231  -5.160 -11.127  0.00  0.00    +0.016 C 
+ATOM     19  C   UNL     1       0.082  -2.870 -11.463  0.00  0.00    -0.030 C 
+ATOM     20  C   UNL     1       8.447  -1.981 -14.522  0.00  0.00    +0.134 C 
+ENDROOT
+TORSDOF 0
+ENDMDL
+MODEL 5
+REMARK VINA RESULT:      -6.9     14.068     15.604
+REMARK  Name = C:\Users\atira\OneDrive\Desktop\pipeline\Automated_Molecular_Docking\first_stage_model_download\OR7D4_folder\ligands\Androstenone.pdb
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: C_4  and  C_15
+REMARK    2  A    between atoms: C_7  and  C_18
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1      -9.805  16.248  -8.445  0.00  0.00    -0.297 OA
+ATOM      2  C   UNL     1      -5.384  16.483  -5.137  0.00  0.00    -0.001 C 
+ATOM      3  C   UNL     1      -5.576  16.261  -3.599  0.00  0.00    -0.003 C 
+ATOM      4  C   UNL     1      -6.677  17.081  -5.807  0.00  0.00    -0.025 C 
+ATOM      5  C   UNL     1      -4.286  15.651  -3.048  0.00  0.00    +0.006 C 
+ATOM      6  C   UNL     1      -7.865  16.116  -5.482  0.00  0.00    +0.002 C 
+ATOM      7  C   UNL     1      -3.075  16.593  -3.232  0.00  0.00    -0.011 C 
+ATOM      8  C   UNL     1      -4.068  17.244  -5.473  0.00  0.00    +0.005 C 
+ATOM      9  C   UNL     1      -6.793  15.372  -3.318  0.00  0.00    +0.004 C 
+ATOM     10  C   UNL     1      -2.823  16.702  -4.738  0.00  0.00    +0.011 C 
+ATOM     11  C   UNL     1      -8.062  15.909  -3.975  0.00  0.00    +0.005 C 
+ATOM     12  C   UNL     1      -6.520  17.112  -7.354  0.00  0.00    +0.015 C 
+ATOM     13  C   UNL     1      -4.193  15.183  -1.598  0.00  0.00    +0.031 C 
+ATOM     14  C   UNL     1      -9.177  16.530  -6.152  0.00  0.00    +0.078 C 
+ATOM     15  C   UNL     1      -6.943  18.522  -5.305  0.00  0.00    +0.012 C 
+ATOM     16  C   UNL     1      -2.072  15.834  -2.401  0.00  0.00    -0.024 C 
+ATOM     17  C   UNL     1      -7.795  17.500  -8.100  0.00  0.00    +0.075 C 
+ATOM     18  C   UNL     1      -3.221  17.996  -2.602  0.00  0.00    +0.016 C 
+ATOM     19  C   UNL     1      -2.695  15.096  -1.468  0.00  0.00    -0.030 C 
+ATOM     20  C   UNL     1      -8.978  16.681  -7.643  0.00  0.00    +0.134 C 
+ENDROOT
+TORSDOF 0
+ENDMDL
+MODEL 6
+REMARK VINA RESULT:      -6.8     13.070     15.207
+REMARK  Name = C:\Users\atira\OneDrive\Desktop\pipeline\Automated_Molecular_Docking\first_stage_model_download\OR7D4_folder\ligands\Androstenone.pdb
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: C_4  and  C_15
+REMARK    2  A    between atoms: C_7  and  C_18
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1      -2.616  -2.166 -10.382  0.00  0.00    -0.297 OA
+ATOM      2  C   UNL     1       2.578  -1.898 -12.252  0.00  0.00    -0.001 C 
+ATOM      3  C   UNL     1       2.860  -2.234 -13.755  0.00  0.00    -0.003 C 
+ATOM      4  C   UNL     1       1.312  -2.662 -11.711  0.00  0.00    -0.025 C 
+ATOM      5  C   UNL     1       4.082  -1.424 -14.195  0.00  0.00    +0.006 C 
+ATOM      6  C   UNL     1       0.110  -2.299 -12.644  0.00  0.00    +0.002 C 
+ATOM      7  C   UNL     1       5.346  -1.801 -13.391  0.00  0.00    -0.011 C 
+ATOM      8  C   UNL     1       3.846  -2.033 -11.360  0.00  0.00    +0.005 C 
+ATOM      9  C   UNL     1       1.634  -1.935 -14.626  0.00  0.00    +0.004 C 
+ATOM     10  C   UNL     1       5.104  -1.356 -11.947  0.00  0.00    +0.011 C 
+ATOM     11  C   UNL     1       0.381  -2.639 -14.115  0.00  0.00    +0.005 C 
+ATOM     12  C   UNL     1       0.950  -2.166 -10.282  0.00  0.00    +0.015 C 
+ATOM     13  C   UNL     1       4.539  -1.416 -15.651  0.00  0.00    +0.031 C 
+ATOM     14  C   UNL     1      -1.216  -2.905 -12.179  0.00  0.00    +0.078 C 
+ATOM     15  C   UNL     1       1.568  -4.189 -11.657  0.00  0.00    +0.012 C 
+ATOM     16  C   UNL     1       6.363  -1.041 -14.204  0.00  0.00    -0.024 C 
+ATOM     17  C   UNL     1      -0.373  -2.712  -9.751  0.00  0.00    +0.075 C 
+ATOM     18  C   UNL     1       5.746  -3.293 -13.440  0.00  0.00    +0.016 C 
+ATOM     19  C   UNL     1       5.932  -0.876 -15.465  0.00  0.00    -0.030 C 
+ATOM     20  C   UNL     1      -1.494  -2.519 -10.744  0.00  0.00    +0.134 C 
+ENDROOT
+TORSDOF 0
+ENDMDL
+MODEL 7
+REMARK VINA RESULT:      -6.7     14.136     16.020
+REMARK  Name = C:\Users\atira\OneDrive\Desktop\pipeline\Automated_Molecular_Docking\first_stage_model_download\OR7D4_folder\ligands\Androstenone.pdb
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: C_4  and  C_15
+REMARK    2  A    between atoms: C_7  and  C_18
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1     -14.869  -9.271  -0.932  0.00  0.00    -0.297 OA
+ATOM      2  C   UNL     1     -17.676  -6.027   2.554  0.00  0.00    -0.001 C 
+ATOM      3  C   UNL     1     -17.904  -6.514   4.024  0.00  0.00    -0.003 C 
+ATOM      4  C   UNL     1     -17.538  -7.234   1.554  0.00  0.00    -0.025 C 
+ATOM      5  C   UNL     1     -17.993  -5.277   4.920  0.00  0.00    +0.006 C 
+ATOM      6  C   UNL     1     -16.376  -8.145   2.073  0.00  0.00    +0.002 C 
+ATOM      7  C   UNL     1     -19.186  -4.372   4.541  0.00  0.00    -0.011 C 
+ATOM      8  C   UNL     1     -18.698  -4.938   2.118  0.00  0.00    +0.005 C 
+ATOM      9  C   UNL     1     -16.785  -7.462   4.471  0.00  0.00    +0.004 C 
+ATOM     10  C   UNL     1     -18.890  -3.805   3.150  0.00  0.00    +0.011 C 
+ATOM     11  C   UNL     1     -16.605  -8.633   3.509  0.00  0.00    +0.005 C 
+ATOM     12  C   UNL     1     -17.126  -6.725   0.143  0.00  0.00    +0.015 C 
+ATOM     13  C   UNL     1     -18.075  -5.407   6.439  0.00  0.00    +0.031 C 
+ATOM     14  C   UNL     1     -16.069  -9.319   1.140  0.00  0.00    +0.078 C 
+ATOM     15  C   UNL     1     -18.874  -8.008   1.432  0.00  0.00    +0.012 C 
+ATOM     16  C   UNL     1     -19.133  -3.427   5.715  0.00  0.00    -0.024 C 
+ATOM     17  C   UNL     1     -16.785  -7.838  -0.845  0.00  0.00    +0.075 C 
+ATOM     18  C   UNL     1     -20.573  -5.054   4.567  0.00  0.00    +0.016 C 
+ATOM     19  C   UNL     1     -18.563  -4.023   6.775  0.00  0.00    -0.030 C 
+ATOM     20  C   UNL     1     -15.796  -8.817  -0.259  0.00  0.00    +0.134 C 
+ENDROOT
+TORSDOF 0
+ENDMDL
+MODEL 8
+REMARK VINA RESULT:      -6.7      1.370      2.145
+REMARK  Name = C:\Users\atira\OneDrive\Desktop\pipeline\Automated_Molecular_Docking\first_stage_model_download\OR7D4_folder\ligands\Androstenone.pdb
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: C_4  and  C_15
+REMARK    2  A    between atoms: C_7  and  C_18
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1     -11.502  -2.827  -3.280  0.00  0.00    -0.297 OA
+ATOM      2  C   UNL     1      -9.781   1.190  -6.664  0.00  0.00    -0.001 C 
+ATOM      3  C   UNL     1     -10.789   2.315  -7.078  0.00  0.00    -0.003 C 
+ATOM      4  C   UNL     1     -10.517  -0.164  -6.343  0.00  0.00    -0.025 C 
+ATOM      5  C   UNL     1      -9.986   3.591  -7.337  0.00  0.00    +0.006 C 
+ATOM      6  C   UNL     1     -11.580   0.130  -5.233  0.00  0.00    +0.002 C 
+ATOM      7  C   UNL     1      -8.982   3.419  -8.498  0.00  0.00    -0.011 C 
+ATOM      8  C   UNL     1      -8.588   1.060  -7.655  0.00  0.00    +0.005 C 
+ATOM      9  C   UNL     1     -11.857   2.522  -5.999  0.00  0.00    +0.004 C 
+ATOM     10  C   UNL     1      -7.933   2.407  -8.031  0.00  0.00    +0.011 C 
+ATOM     11  C   UNL     1     -12.575   1.223  -5.643  0.00  0.00    +0.005 C 
+ATOM     12  C   UNL     1      -9.516  -1.199  -5.757  0.00  0.00    +0.015 C 
+ATOM     13  C   UNL     1     -10.686   4.917  -7.626  0.00  0.00    +0.031 C 
+ATOM     14  C   UNL     1     -12.314  -1.125  -4.756  0.00  0.00    +0.078 C 
+ATOM     15  C   UNL     1     -11.159  -0.761  -7.620  0.00  0.00    +0.012 C 
+ATOM     16  C   UNL     1      -8.559   4.858  -8.644  0.00  0.00    -0.024 C 
+ATOM     17  C   UNL     1     -10.174  -2.477  -5.240  0.00  0.00    +0.075 C 
+ATOM     18  C   UNL     1      -9.594   2.984  -9.848  0.00  0.00    +0.016 C 
+ATOM     19  C   UNL     1      -9.525   5.681  -8.207  0.00  0.00    -0.030 C 
+ATOM     20  C   UNL     1     -11.322  -2.173  -4.307  0.00  0.00    +0.134 C 
+ENDROOT
+TORSDOF 0
+ENDMDL
+MODEL 9
+REMARK VINA RESULT:      -6.7     13.540     15.586
+REMARK  Name = C:\Users\atira\OneDrive\Desktop\pipeline\Automated_Molecular_Docking\first_stage_model_download\OR7D4_folder\ligands\Androstenone.pdb
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: C_4  and  C_15
+REMARK    2  A    between atoms: C_7  and  C_18
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1     -11.596  14.809  -2.752  0.00  0.00    -0.297 OA
+ATOM      2  C   UNL     1      -6.146  15.696  -2.509  0.00  0.00    -0.001 C 
+ATOM      3  C   UNL     1      -5.548  16.394  -1.241  0.00  0.00    -0.003 C 
+ATOM      4  C   UNL     1      -7.635  16.134  -2.768  0.00  0.00    -0.025 C 
+ATOM      5  C   UNL     1      -4.118  15.883  -1.054  0.00  0.00    +0.006 C 
+ATOM      6  C   UNL     1      -8.451  15.824  -1.470  0.00  0.00    +0.002 C 
+ATOM      7  C   UNL     1      -3.213  16.244  -2.252  0.00  0.00    -0.011 C 
+ATOM      8  C   UNL     1      -5.212  15.805  -3.749  0.00  0.00    +0.005 C 
+ATOM      9  C   UNL     1      -6.415  16.128  -0.005  0.00  0.00    +0.004 C 
+ATOM     10  C   UNL     1      -3.736  15.459  -3.458  0.00  0.00    +0.011 C 
+ATOM     11  C   UNL     1      -7.873  16.517  -0.230  0.00  0.00    +0.005 C 
+ATOM     12  C   UNL     1      -8.257  15.287  -3.915  0.00  0.00    +0.015 C 
+ATOM     13  C   UNL     1      -3.300  16.263   0.176  0.00  0.00    +0.031 C 
+ATOM     14  C   UNL     1      -9.946  16.119  -1.614  0.00  0.00    +0.078 C 
+ATOM     15  C   UNL     1      -7.711  17.631  -3.160  0.00  0.00    +0.012 C 
+ATOM     16  C   UNL     1      -1.887  15.835  -1.663  0.00  0.00    -0.024 C 
+ATOM     17  C   UNL     1      -9.755  15.510  -4.111  0.00  0.00    +0.075 C 
+ATOM     18  C   UNL     1      -3.119  17.751  -2.585  0.00  0.00    +0.016 C 
+ATOM     19  C   UNL     1      -1.927  15.896  -0.323  0.00  0.00    -0.030 C 
+ATOM     20  C   UNL     1     -10.511  15.387  -2.810  0.00  0.00    +0.134 C 
+ENDROOT
+TORSDOF 0
+ENDMDL

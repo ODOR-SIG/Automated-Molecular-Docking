@@ -170,22 +170,57 @@ def assess_model(receptor_name, pdb_file):
     finally:
         driver.quit()
 
+# PDBQT columns 77-78 hold the AutoDock *atom type*, not a bare element
+# symbol. AutoDock encodes bonding character in the type -- a hydroxyl/
+# carbonyl oxygen is typed "OA" (not "O"), an amide/aromatic nitrogen that
+# can accept is typed "NA" (not "N"), an aromatic carbon is typed "A" (not
+# "C"), and a polar hydrogen is typed "HD" (not "H"). Comparing the raw type
+# string against a bare element symbol (as this code previously did) silently
+# drops most of the biologically relevant atoms: OA/NA cover the majority of
+# real H-bond donor/acceptor heteroatoms, and "A" covers aromatic ring
+# carbons, so both H-bond and hydrophobic-contact counts were undercounted.
+AUTODOCK_ATOM_TYPE_TO_ELEMENT = {
+    "H": "H", "HD": "H", "HS": "H",
+    "C": "C", "A": "C",
+    "N": "N", "NA": "N", "NS": "N",
+    "O": "O", "OA": "O", "OS": "O",
+    "S": "S", "SA": "S",
+    "P": "P",
+    "F": "F", "Cl": "Cl", "Br": "Br", "I": "I",
+    "Mg": "Mg", "Ca": "Ca", "Mn": "Mn", "Fe": "Fe", "Zn": "Zn", "Cu": "Cu",
+    "Na": "Na", "K": "K",
+}
+
+
+def autodock_type_to_element(atom_type):
+    """Map a PDBQT/AutoDock atom type (columns 77-78) to its base element
+    symbol, e.g. 'OA' -> 'O', 'NA' -> 'N', 'HD' -> 'H', 'A' -> 'C'.
+
+    Falls back to the raw type unchanged if it isn't a recognised AutoDock
+    type (so genuinely unexpected content is preserved rather than dropped).
+    """
+    return AUTODOCK_ATOM_TYPE_TO_ELEMENT.get(atom_type, atom_type)
+
+
+def get_atoms_from_lines(lines):
+    atoms = []
+    for line in lines:
+        if line.startswith(("ATOM", "HETATM")):
+            # Columns 77-78: AutoDock atom type, e.g. OA/NA/HD/A -- map to
+            # its element before classifying (see AUTODOCK_ATOM_TYPE_TO_ELEMENT).
+            atom_type = line[76:78].strip()
+            elem = autodock_type_to_element(atom_type)
+            coords = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
+            atoms.append({'elem': elem, 'coords': coords})
+    return atoms
+
+
 def analyze_interactions(receptor_pdbqt, ligand_output_pdbqt):
     """
     Calculates H-bonds and Hydrophobic contacts based on user-defined theory:
     H-Bond: N/O (Rec) to N/O (Lig) < 3.5 A
     Hydrophobic: C (Rec) to C (Lig) < 4.5 A
     """
-    def get_atoms_from_lines(lines):
-        atoms = []
-        for line in lines:
-            if line.startswith(("ATOM", "HETATM")):
-                # Element is at columns 77-78 in PDBQT
-                elem = line[76:78].strip()
-                coords = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
-                atoms.append({'elem': elem, 'coords': coords})
-        return atoms
-
     # 1. Load Receptor Atoms once
     with open(receptor_pdbqt, 'r') as f:
         rec_atoms = get_atoms_from_lines(f.readlines())
