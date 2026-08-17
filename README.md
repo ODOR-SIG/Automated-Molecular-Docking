@@ -73,6 +73,16 @@ Also permanently archived at Zenodo (raw docking logs + Excel dataset):
 
 ---
 
+## ✅ Testing & Reproducibility
+
+This repo includes a pytest test suite and GitHub Actions CI running on every
+push and pull request (see [`.github/workflows/ci.yml`](.github/workflows/ci.yml)),
+a worked example with checked-in expected output
+([`examples/OR7D4_androstenone/`](examples/OR7D4_androstenone/)), and
+[`CONTRIBUTING.md`](CONTRIBUTING.md) for how to report issues and submit PRs.
+
+---
+
 ## System Workflow (Architecture)
 
 The pipeline follows a modular, reproducible workflow:
