@@ -1,5 +1,6 @@
 import os
 import time
+import json
 import requests
 import subprocess
 import glob
@@ -15,6 +16,7 @@ _sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..
 from Automation_code.reproducibility import reproducibility_stats
 from Automation_code.receptor_ligand_prep import extract_chain_a, convert_to_pdbqt
 from Automation_code.Step_04_config_file import generate_blind_config
+from Automation_code.provenance import write_run_manifest
 from Bio import Entrez
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -439,6 +441,36 @@ def main():
                             aff = affinities[i] if i < len(affinities) else "N/A"
                             f.write(f"{i+1},{aff},{res['h_bonds']},{res['hydrophobic']}\n")
 
+                # Per-run provenance manifest -- what actually produced this
+                # run's output, machine-readable and checkable, not just
+                # asserted in the manuscript. Written whenever a run
+                # attempted docking (out_pdbqt path is known either way);
+                # file hashes come back None for anything that didn't get
+                # produced, which is itself informative rather than an error.
+                write_run_manifest(
+                    os.path.join(run_dir, "run_manifest.json"),
+                    receptor=rec_name,
+                    ligand=lig_name,
+                    seeds=seed,
+                    docking_params={
+                        "exhaustiveness": EXHAUSTIVENESS,
+                        "num_modes": NUM_POSES,
+                        "energy_range": ENERGY_RANGE,
+                    },
+                    input_files={
+                        "receptor_pdbqt": rec_pdbqt,
+                        "ligand_pdbqt": lig_pdbqt,
+                        "config": config_file,
+                    },
+                    output_files={
+                        "docked_pdbqt": out_pdbqt,
+                        "log": log_file,
+                        "analysis_csv": analysis_csv,
+                    },
+                    vina_exe=VINA_PATH,
+                    obabel_exe=OBABEL_PATH,
+                )
+
             print(f"✅ Row {index+1} Finished.")
         else:
             print(f"🛑 Error preparing inputs for Row {index+1}.")
@@ -585,6 +617,77 @@ def master_organizer():
     print(f"✅ Master Excel created: {os.path.abspath(final_excel_name)}")
 
 
+def collect_qc_data():
+    """Aggregate per-pair, per-run completion status from OUTPUT_ROOT into a
+    single, checkable record -- e.g. "480/480 pairs completed (1440/1440
+    individual docking runs)" -- rather than requiring a reviewer (or the
+    authors) to manually count output folders. Reads the same on-disk layout
+    main() already writes (pair_folder/docking_N/pose_analysis.csv); does not
+    change what main() writes or how it decides to skip already-completed
+    runs.
+
+    Returns a dict; use write_qc_report() to also persist it to disk.
+    """
+    qc = {
+        "requested_pairs": 0,
+        "expected_runs_per_pair": len(DOCKING_SEEDS),
+        "completed_pairs": 0,
+        "completed_runs": 0,
+        "requested_runs": 0,
+        "incomplete_pairs": [],
+    }
+    if not os.path.exists(EXCEL_FILE):
+        qc["completion_summary"] = f"Pair list not found at {EXCEL_FILE}; nothing to report."
+        return qc
+
+    df = pd.read_excel(EXCEL_FILE)
+    qc["requested_pairs"] = len(df)
+
+    for _, row in df.iterrows():
+        rec_name = str(row["Receptor"]).strip()
+        lig_name = str(row["Ligand"]).strip()
+        pair_folder = os.path.join(OUTPUT_ROOT, f"{rec_name}_{lig_name}")
+
+        completed_runs_this_pair = 0
+        for run_num in range(1, len(DOCKING_SEEDS) + 1):
+            qc["requested_runs"] += 1
+            analysis_csv = os.path.join(pair_folder, f"docking_{run_num}", "pose_analysis.csv")
+            if os.path.exists(analysis_csv):
+                completed_runs_this_pair += 1
+                qc["completed_runs"] += 1
+
+        if completed_runs_this_pair == len(DOCKING_SEEDS):
+            qc["completed_pairs"] += 1
+        else:
+            qc["incomplete_pairs"].append({
+                "receptor": rec_name,
+                "ligand": lig_name,
+                "completed_runs": completed_runs_this_pair,
+                "expected_runs": len(DOCKING_SEEDS),
+            })
+
+    qc["completion_summary"] = (
+        f"{qc['completed_pairs']}/{qc['requested_pairs']} pairs completed "
+        f"({qc['completed_runs']}/{qc['requested_runs']} individual docking runs)"
+    )
+    return qc
+
+
+def write_qc_report(path=None):
+    """Write collect_qc_data()'s result to OUTPUT_ROOT/qc_report.json (or a
+    caller-supplied path) as indented JSON, and print the one-line summary."""
+    qc = collect_qc_data()
+    report_path = path or os.path.join(OUTPUT_ROOT, "qc_report.json")
+    os.makedirs(os.path.dirname(report_path) or ".", exist_ok=True)
+    with open(report_path, "w") as f:
+        json.dump(qc, f, indent=2)
+        f.write("\n")
+    print(f"📋 {qc['completion_summary']}")
+    print(f"   QC report saved to: {report_path}")
+    return qc
+
+
 if __name__ == "__main__":
     main()
     master_organizer()
+    write_qc_report()

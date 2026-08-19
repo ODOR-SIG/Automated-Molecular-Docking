@@ -22,6 +22,7 @@ read the same way they always have been -- see config.py and .env.example.
 This CLI does not introduce a second configuration mechanism.
 """
 import argparse
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -44,6 +45,7 @@ def _cmd_run(args):
     from Automation_code.Step_03_prepare_receptor_ligand import prepare_receptor_and_ligands
     from Automation_code.Step_04_config_file import create_all_configs_for_receptor
     from Automation_code.Step_05_docking import run_all_dockings_for_receptor
+    from Automation_code.provenance import write_run_manifest
 
     ligands = [l.strip() for l in args.ligands.split(",") if l.strip()]
     seed_list = args.seed if args.seed else None  # None -> random-seed mode, matching app.py
@@ -79,6 +81,29 @@ def _cmd_run(args):
         args.receptor, config.PREPARED_MODELS_DIR, seed_list
     )
     print(result)
+
+    # Run-level provenance manifest. run_all_dockings_for_receptor() writes
+    # its own per-seed log/output files directly (not returned as a
+    # structured list), so this records the run as a whole -- receptor,
+    # ligands, seeds/params actually used, and tool versions on this
+    # machine -- rather than per-individual-file hashes as dataset/code.py's
+    # batch path does; see Automation_code/provenance.py.
+    manifest_dir = os.path.join(config.DOCKING_OUTPUT_DIR, f"{args.receptor}_folder")
+    os.makedirs(manifest_dir, exist_ok=True)
+    write_run_manifest(
+        os.path.join(manifest_dir, "run_manifest.json"),
+        receptor=args.receptor,
+        ligand=",".join(ligands),
+        seeds=seed_list if seed_list is not None else "random",
+        docking_params={
+            "exhaustiveness": args.exhaustiveness,
+            "num_modes": args.num_modes,
+            "energy_range": args.energy_range,
+        },
+        vina_exe=os.environ.get("ODORSIG_VINA_EXE", "vina"),
+        obabel_exe=os.environ.get("ODORSIG_OBABEL_PATH", "obabel"),
+        extra={"result_summary": result},
+    )
     return 0
 
 
@@ -108,6 +133,7 @@ def _cmd_batch(args):
 
     dataset_module.main()
     dataset_module.master_organizer()
+    dataset_module.write_qc_report()
     return 0
 
 
