@@ -13,6 +13,8 @@ import numpy as np
 import sys as _sys
 _sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "code"))
 from Automation_code.reproducibility import reproducibility_stats
+from Automation_code.receptor_ligand_prep import extract_chain_a, convert_to_pdbqt
+from Automation_code.Step_04_config_file import generate_blind_config
 from Bio import Entrez
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -47,11 +49,15 @@ NUM_POSES = 10
 EXHAUSTIVENESS = 16
 ENERGY_RANGE = 4
 
-# Global Directories
+# Global Directories. Defaults are unchanged from previous releases (still
+# receptors/, ligands/, outputs/ relative to the current working directory,
+# matching the layout the deposited 480-pair dataset was generated under) --
+# each is now also overridable via the same ODORSIG_* environment-variable
+# convention code/Automation_code/config.py uses, rather than being hardcoded.
 BASE_DIR = os.getcwd()
-RECEPTOR_WH = os.path.join(BASE_DIR, "receptors")
-LIGAND_WH = os.path.join(BASE_DIR, "ligands")
-OUTPUT_ROOT = os.path.join(BASE_DIR, "outputs")
+RECEPTOR_WH = os.environ.get("ODORSIG_DATASET_RECEPTOR_DIR", os.path.join(BASE_DIR, "receptors"))
+LIGAND_WH = os.environ.get("ODORSIG_DATASET_LIGAND_DIR", os.path.join(BASE_DIR, "ligands"))
+OUTPUT_ROOT = os.environ.get("ODORSIG_DATASET_OUTPUT_DIR", os.path.join(BASE_DIR, "outputs"))
 
 for d in [RECEPTOR_WH, LIGAND_WH, OUTPUT_ROOT]:
     os.makedirs(d, exist_ok=True)
@@ -314,18 +320,9 @@ def prepare_receptor(raw_pdb, receptor_name):
     chain_a_pdb = os.path.join(receptor_dir, f"{receptor_name}_chainA.pdb")
     final_pdbqt = os.path.join(receptor_dir, f"{receptor_name}.pdbqt")
 
-    with open(raw_pdb, 'r') as infile, open(chain_a_pdb, 'w') as outfile:
-        for line in infile:
-            if line.startswith(('ATOM', 'HETATM')) and line[21] == 'A':
-                outfile.write(line)
-            elif line.startswith('END'):
-                outfile.write(line)
+    extract_chain_a(raw_pdb, chain_a_pdb)
 
-    subprocess.run(
-        [OBABEL_PATH, chain_a_pdb, "-O", final_pdbqt, "-xr", "-h", "--partialcharge", "gasteiger"],
-        check=True,
-        capture_output=True
-    )
+    convert_to_pdbqt(OBABEL_PATH, chain_a_pdb, final_pdbqt, receptor=True, capture_output=True)
 
     if os.path.exists(chain_a_pdb):
         os.remove(chain_a_pdb)
@@ -341,28 +338,30 @@ def prepare_ligand(ligand_name):
         cid = cid_res.text.strip().split()[0]
         sdf_res = requests.get(f"{base_url}/compound/cid/{cid}/record/SDF/?record_type=3d")
         with open(temp_sdf, "w") as f: f.write(sdf_res.text)
-        subprocess.run([OBABEL_PATH, temp_sdf, "-O", final_pdbqt, "-h", "--partialcharge", "gasteiger"], check=True, capture_output=True)
+        convert_to_pdbqt(OBABEL_PATH, temp_sdf, final_pdbqt, receptor=False, capture_output=True)
         if os.path.exists(temp_sdf): os.remove(temp_sdf)
         return final_pdbqt
     except Exception as e:
         print(f"❌ Ligand Error: {e}"); return None
 
 def generate_config(receptor_pdbqt, ligand_pdbqt, output_dir):
-    coords = []
-    with open(receptor_pdbqt, 'r') as f:
-        for line in f:
-            if line.startswith(("ATOM", "HETATM")):
-                coords.append([float(line[30:38]), float(line[38:46]), float(line[46:54])])
-    coords = np.array(coords)
-    center = coords.mean(axis=0)
-    size = (coords.max(axis=0) - coords.min(axis=0)) + 10.0 
     config_path = os.path.join(output_dir, "config.txt")
-    with open(config_path, "w") as f:
-        f.write(f"receptor = {os.path.abspath(receptor_pdbqt)}\n")
-        f.write(f"ligand = {os.path.abspath(ligand_pdbqt)}\n\n")
-        f.write(f"center_x = {center[0]:.3f}\ncenter_y = {center[1]:.3f}\ncenter_z = {center[2]:.3f}\n\n")
-        f.write(f"size_x = {size[0]:.3f}\nsize_y = {size[1]:.3f}\nsize_z = {size[2]:.3f}\n\n")
-        f.write(f"exhaustiveness = {EXHAUSTIVENESS}\nnum_modes = {NUM_POSES}\nenergy_range = {ENERGY_RANGE}\n")
+    # Delegates the actual coordinate-extraction/box-math/file-write to
+    # Automation_code.Step_04_config_file.generate_blind_config -- the same
+    # function the interactive app uses -- passing this pipeline's own
+    # existing parameters (buffer=10.0, EXHAUSTIVENESS=16, NUM_POSES=10,
+    # ENERGY_RANGE=4) explicitly so the written config.txt is unchanged from
+    # before this refactor (byte-identical field values; abspath'd receptor/
+    # ligand paths, matching the previous implementation).
+    generate_blind_config(
+        protein_path=os.path.abspath(receptor_pdbqt),
+        ligand_path=os.path.abspath(ligand_pdbqt),
+        config_path=config_path,
+        exhaustiveness=EXHAUSTIVENESS,
+        num_modes=NUM_POSES,
+        energy_range=ENERGY_RANGE,
+        buffer=10.0,
+    )
     return config_path
 
 # ======================== MAIN LOOP ========================
