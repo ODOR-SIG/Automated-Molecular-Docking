@@ -220,7 +220,15 @@ cd code
 streamlit run app.py
 ```
 
-Regenerate the large-scale 480-pair dataset (requires `ODORSIG_PAIR_LIST_XLSX` pointing at a receptor/ligand pair list — see `dataset/README_dataset.md`):
+Or use the command-line interface (glue code around the same pipeline functions the app calls — no separate implementation):
+```bash
+cd code
+python cli.py run --receptor OR7D4 --ligands Androstenone
+python cli.py batch --input ../dataset/pair_list.xlsx
+python cli.py reproduce ../examples/OR7D4_androstenone
+```
+
+Regenerate the large-scale 480-pair dataset (requires `ODORSIG_PAIR_LIST_XLSX` pointing at a receptor/ligand pair list — see `dataset/README_dataset.md`; equivalent to `cli.py batch --input <path>` above):
 ```bash
 cd dataset
 python code.py
