@@ -11,6 +11,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 from Automation_code.config import RECEPTOR_DOWNLOAD_DIR, CHROMEDRIVER
 
@@ -58,7 +59,7 @@ def assess_model(receptor, st_callback=None):
             structure_assessment_link = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//a[@href='/assess']"))
             )
-        except:
+        except TimeoutException:
             structure_assessment_link = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Structure Assessment')]"))
             )

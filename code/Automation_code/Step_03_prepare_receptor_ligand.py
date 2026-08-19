@@ -7,6 +7,7 @@ from Automation_code.config import (
     MODEL_CHAIN_A_ONLY,
     OBABEL_PATH
 )
+from Automation_code.receptor_ligand_prep import extract_chain_a, convert_to_pdbqt
 
 def prepare_receptor_and_ligands(receptor, base_dir=None, st_callback=print):
     input_root = base_dir if base_dir else RECEPTOR_DOWNLOAD_DIR
@@ -35,11 +36,8 @@ def prepare_receptor_and_ligands(receptor, base_dir=None, st_callback=print):
                     # Ligand processing
                     ligand_name = os.path.splitext(file)[0]
                     output_path = os.path.join(receptor_output_dir, f"{ligand_name}.pdbqt")
-                    cmd = [
-                        OBABEL_PATH, input_path,
-                        "-O", output_path,
-                        "-h", "--partialcharge", "gasteiger"
-                    ]
+                    convert_source = input_path
+                    is_receptor = False
                     tag = "[Ligand]"
                 else:
                     # Receptor processing
@@ -47,27 +45,21 @@ def prepare_receptor_and_ligands(receptor, base_dir=None, st_callback=print):
                     chainA_path = os.path.join(chainA_dir, f"{receptor}.pdb")
 
                     try:
-                        with open(input_path, 'r') as infile, open(chainA_path, 'w') as outfile:
-                            for line in infile:
-                                if line.startswith(('ATOM', 'HETATM')) and line[21] == 'A':
-                                    outfile.write(line)
-                                elif line.startswith('END'):
-                                    outfile.write(line)
+                        extract_chain_a(input_path, chainA_path)
                     except Exception as e:
                         errors.append(f"{tag} Error processing {file}: {e}")
                         continue
 
                     output_path = os.path.join(receptor_output_dir, f"{receptor}.pdbqt")
-                    cmd = [
-                        OBABEL_PATH, chainA_path,
-                        "-O", output_path,
-                        "-xr", "-h", "--partialcharge", "gasteiger"
-                    ]
+                    convert_source = chainA_path
+                    is_receptor = True
 
-                # Run the Open Babel command
+                # Run the Open Babel command (log message still refers to the
+                # original input_path, matching pre-refactor behaviour, even
+                # though the receptor branch converts from chainA_path).
                 st_callback(f"{tag} Processing: {input_path}")
                 try:
-                    subprocess.run(cmd, check=True)
+                    convert_to_pdbqt(OBABEL_PATH, convert_source, output_path, receptor=is_receptor)
                     st_callback(f"    ✔ Saved: {output_path}\n")
                 except subprocess.CalledProcessError:
                     errors.append(f"{tag} ❌ Failed to convert: {input_path}")

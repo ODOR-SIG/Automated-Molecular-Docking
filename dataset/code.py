@@ -1,5 +1,6 @@
 import os
 import time
+import json
 import requests
 import subprocess
 import glob
@@ -13,6 +14,9 @@ import numpy as np
 import sys as _sys
 _sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "code"))
 from Automation_code.reproducibility import reproducibility_stats
+from Automation_code.receptor_ligand_prep import extract_chain_a, convert_to_pdbqt
+from Automation_code.Step_04_config_file import generate_blind_config
+from Automation_code.provenance import write_run_manifest
 from Bio import Entrez
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -47,11 +51,15 @@ NUM_POSES = 10
 EXHAUSTIVENESS = 16
 ENERGY_RANGE = 4
 
-# Global Directories
+# Global Directories. Defaults are unchanged from previous releases (still
+# receptors/, ligands/, outputs/ relative to the current working directory,
+# matching the layout the deposited 480-pair dataset was generated under) --
+# each is now also overridable via the same ODORSIG_* environment-variable
+# convention code/Automation_code/config.py uses, rather than being hardcoded.
 BASE_DIR = os.getcwd()
-RECEPTOR_WH = os.path.join(BASE_DIR, "receptors")
-LIGAND_WH = os.path.join(BASE_DIR, "ligands")
-OUTPUT_ROOT = os.path.join(BASE_DIR, "outputs")
+RECEPTOR_WH = os.environ.get("ODORSIG_DATASET_RECEPTOR_DIR", os.path.join(BASE_DIR, "receptors"))
+LIGAND_WH = os.environ.get("ODORSIG_DATASET_LIGAND_DIR", os.path.join(BASE_DIR, "ligands"))
+OUTPUT_ROOT = os.environ.get("ODORSIG_DATASET_OUTPUT_DIR", os.path.join(BASE_DIR, "outputs"))
 
 for d in [RECEPTOR_WH, LIGAND_WH, OUTPUT_ROOT]:
     os.makedirs(d, exist_ok=True)
@@ -314,18 +322,9 @@ def prepare_receptor(raw_pdb, receptor_name):
     chain_a_pdb = os.path.join(receptor_dir, f"{receptor_name}_chainA.pdb")
     final_pdbqt = os.path.join(receptor_dir, f"{receptor_name}.pdbqt")
 
-    with open(raw_pdb, 'r') as infile, open(chain_a_pdb, 'w') as outfile:
-        for line in infile:
-            if line.startswith(('ATOM', 'HETATM')) and line[21] == 'A':
-                outfile.write(line)
-            elif line.startswith('END'):
-                outfile.write(line)
+    extract_chain_a(raw_pdb, chain_a_pdb)
 
-    subprocess.run(
-        [OBABEL_PATH, chain_a_pdb, "-O", final_pdbqt, "-xr", "-h", "--partialcharge", "gasteiger"],
-        check=True,
-        capture_output=True
-    )
+    convert_to_pdbqt(OBABEL_PATH, chain_a_pdb, final_pdbqt, receptor=True, capture_output=True)
 
     if os.path.exists(chain_a_pdb):
         os.remove(chain_a_pdb)
@@ -341,28 +340,30 @@ def prepare_ligand(ligand_name):
         cid = cid_res.text.strip().split()[0]
         sdf_res = requests.get(f"{base_url}/compound/cid/{cid}/record/SDF/?record_type=3d")
         with open(temp_sdf, "w") as f: f.write(sdf_res.text)
-        subprocess.run([OBABEL_PATH, temp_sdf, "-O", final_pdbqt, "-h", "--partialcharge", "gasteiger"], check=True, capture_output=True)
+        convert_to_pdbqt(OBABEL_PATH, temp_sdf, final_pdbqt, receptor=False, capture_output=True)
         if os.path.exists(temp_sdf): os.remove(temp_sdf)
         return final_pdbqt
     except Exception as e:
         print(f"❌ Ligand Error: {e}"); return None
 
 def generate_config(receptor_pdbqt, ligand_pdbqt, output_dir):
-    coords = []
-    with open(receptor_pdbqt, 'r') as f:
-        for line in f:
-            if line.startswith(("ATOM", "HETATM")):
-                coords.append([float(line[30:38]), float(line[38:46]), float(line[46:54])])
-    coords = np.array(coords)
-    center = coords.mean(axis=0)
-    size = (coords.max(axis=0) - coords.min(axis=0)) + 10.0 
     config_path = os.path.join(output_dir, "config.txt")
-    with open(config_path, "w") as f:
-        f.write(f"receptor = {os.path.abspath(receptor_pdbqt)}\n")
-        f.write(f"ligand = {os.path.abspath(ligand_pdbqt)}\n\n")
-        f.write(f"center_x = {center[0]:.3f}\ncenter_y = {center[1]:.3f}\ncenter_z = {center[2]:.3f}\n\n")
-        f.write(f"size_x = {size[0]:.3f}\nsize_y = {size[1]:.3f}\nsize_z = {size[2]:.3f}\n\n")
-        f.write(f"exhaustiveness = {EXHAUSTIVENESS}\nnum_modes = {NUM_POSES}\nenergy_range = {ENERGY_RANGE}\n")
+    # Delegates the actual coordinate-extraction/box-math/file-write to
+    # Automation_code.Step_04_config_file.generate_blind_config -- the same
+    # function the interactive app uses -- passing this pipeline's own
+    # existing parameters (buffer=10.0, EXHAUSTIVENESS=16, NUM_POSES=10,
+    # ENERGY_RANGE=4) explicitly so the written config.txt is unchanged from
+    # before this refactor (byte-identical field values; abspath'd receptor/
+    # ligand paths, matching the previous implementation).
+    generate_blind_config(
+        protein_path=os.path.abspath(receptor_pdbqt),
+        ligand_path=os.path.abspath(ligand_pdbqt),
+        config_path=config_path,
+        exhaustiveness=EXHAUSTIVENESS,
+        num_modes=NUM_POSES,
+        energy_range=ENERGY_RANGE,
+        buffer=10.0,
+    )
     return config_path
 
 # ======================== MAIN LOOP ========================
@@ -439,6 +440,36 @@ def main():
                         for i, res in enumerate(results):
                             aff = affinities[i] if i < len(affinities) else "N/A"
                             f.write(f"{i+1},{aff},{res['h_bonds']},{res['hydrophobic']}\n")
+
+                # Per-run provenance manifest -- what actually produced this
+                # run's output, machine-readable and checkable, not just
+                # asserted in the manuscript. Written whenever a run
+                # attempted docking (out_pdbqt path is known either way);
+                # file hashes come back None for anything that didn't get
+                # produced, which is itself informative rather than an error.
+                write_run_manifest(
+                    os.path.join(run_dir, "run_manifest.json"),
+                    receptor=rec_name,
+                    ligand=lig_name,
+                    seeds=seed,
+                    docking_params={
+                        "exhaustiveness": EXHAUSTIVENESS,
+                        "num_modes": NUM_POSES,
+                        "energy_range": ENERGY_RANGE,
+                    },
+                    input_files={
+                        "receptor_pdbqt": rec_pdbqt,
+                        "ligand_pdbqt": lig_pdbqt,
+                        "config": config_file,
+                    },
+                    output_files={
+                        "docked_pdbqt": out_pdbqt,
+                        "log": log_file,
+                        "analysis_csv": analysis_csv,
+                    },
+                    vina_exe=VINA_PATH,
+                    obabel_exe=OBABEL_PATH,
+                )
 
             print(f"✅ Row {index+1} Finished.")
         else:
@@ -586,6 +617,77 @@ def master_organizer():
     print(f"✅ Master Excel created: {os.path.abspath(final_excel_name)}")
 
 
+def collect_qc_data():
+    """Aggregate per-pair, per-run completion status from OUTPUT_ROOT into a
+    single, checkable record -- e.g. "480/480 pairs completed (1440/1440
+    individual docking runs)" -- rather than requiring a reviewer (or the
+    authors) to manually count output folders. Reads the same on-disk layout
+    main() already writes (pair_folder/docking_N/pose_analysis.csv); does not
+    change what main() writes or how it decides to skip already-completed
+    runs.
+
+    Returns a dict; use write_qc_report() to also persist it to disk.
+    """
+    qc = {
+        "requested_pairs": 0,
+        "expected_runs_per_pair": len(DOCKING_SEEDS),
+        "completed_pairs": 0,
+        "completed_runs": 0,
+        "requested_runs": 0,
+        "incomplete_pairs": [],
+    }
+    if not os.path.exists(EXCEL_FILE):
+        qc["completion_summary"] = f"Pair list not found at {EXCEL_FILE}; nothing to report."
+        return qc
+
+    df = pd.read_excel(EXCEL_FILE)
+    qc["requested_pairs"] = len(df)
+
+    for _, row in df.iterrows():
+        rec_name = str(row["Receptor"]).strip()
+        lig_name = str(row["Ligand"]).strip()
+        pair_folder = os.path.join(OUTPUT_ROOT, f"{rec_name}_{lig_name}")
+
+        completed_runs_this_pair = 0
+        for run_num in range(1, len(DOCKING_SEEDS) + 1):
+            qc["requested_runs"] += 1
+            analysis_csv = os.path.join(pair_folder, f"docking_{run_num}", "pose_analysis.csv")
+            if os.path.exists(analysis_csv):
+                completed_runs_this_pair += 1
+                qc["completed_runs"] += 1
+
+        if completed_runs_this_pair == len(DOCKING_SEEDS):
+            qc["completed_pairs"] += 1
+        else:
+            qc["incomplete_pairs"].append({
+                "receptor": rec_name,
+                "ligand": lig_name,
+                "completed_runs": completed_runs_this_pair,
+                "expected_runs": len(DOCKING_SEEDS),
+            })
+
+    qc["completion_summary"] = (
+        f"{qc['completed_pairs']}/{qc['requested_pairs']} pairs completed "
+        f"({qc['completed_runs']}/{qc['requested_runs']} individual docking runs)"
+    )
+    return qc
+
+
+def write_qc_report(path=None):
+    """Write collect_qc_data()'s result to OUTPUT_ROOT/qc_report.json (or a
+    caller-supplied path) as indented JSON, and print the one-line summary."""
+    qc = collect_qc_data()
+    report_path = path or os.path.join(OUTPUT_ROOT, "qc_report.json")
+    os.makedirs(os.path.dirname(report_path) or ".", exist_ok=True)
+    with open(report_path, "w") as f:
+        json.dump(qc, f, indent=2)
+        f.write("\n")
+    print(f"📋 {qc['completion_summary']}")
+    print(f"   QC report saved to: {report_path}")
+    return qc
+
+
 if __name__ == "__main__":
     main()
     master_organizer()
+    write_qc_report()
