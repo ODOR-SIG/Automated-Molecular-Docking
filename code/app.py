@@ -190,7 +190,7 @@ if st.session_state.proceed_to_docking:
             if st.session_state.use_manual_seed:
                 try:
                     seed_list = [int(seed1), int(seed2), int(seed3)]
-                except:
+                except ValueError:
                     st.error("⚠️ Please enter valid integers for all three seeds.")
                     st.stop()
             elif not st.session_state.use_random_seed:
@@ -271,7 +271,7 @@ if st.session_state.docking_done:
                     if re.match(r'\s*\d+\s+[-\d.]+\s+[-\d.]+\s+[-\d.]+', line):
                         parts = line.split()
                         energies.append(float(parts[1]))
-        except:
+        except (OSError, ValueError):
             pass
         return energies
 
@@ -333,7 +333,7 @@ if st.session_state.docking_done:
             try:
                 avg = np.mean([float(row[s]) for s in seed_names if row[s]])
                 row["Average Affinity"] = f"{avg:.4f}"
-            except:
+            except (ValueError, TypeError):
                 row["Average Affinity"] = ""
             table_data.append(row)
 
