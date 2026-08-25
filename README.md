@@ -285,8 +285,6 @@ Released under the **MIT License**. See the `LICENSE` file for details.
 
 ## Authors
 
-## Authors
-
 **Divyanshu Bajpai**
 PhD Researcher, Computational CHCi Lab
 Indian Institute of Technology Mandi, Himachal Pradesh, India
